@@ -1,16 +1,42 @@
-# React + Vite
+# Mobidudes Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive, and user-friendly **Admin Dashboard** for managing the Mobidudes website, including Blog, Career, Services, Portfolio, and Contact data. Built with a focus on clean UI and easy navigation.
 
-Currently, two official plugins are available:
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
+The Mobidudes Admin Dashboard allows administrators to manage all aspects of the website from a centralized panel. It provides an intuitive sidebar for navigation and a dashboard for quick insights.
 
-## React Compiler
+The main dashboard shows key statistics like:
+- Total Blogs
+- Career Opportunities
+- Vacancies
+- Services
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Features
+- **Dashboard:** Quick overview of key metrics.
+- **Sidebar Navigation:** Easy access to Home, Career, About, Blog, Service, Portfolio, and Contact sections.
+- **Responsive Design:** Works seamlessly on desktop and tablet screens.
+- **CRUD Operations:** Add, edit, and delete content across multiple modules.
+- **User Authentication:** Secure login and logout functionality.
 
-## Expanding the ESLint configuration
+## Tech Stack
+- **Frontend:** React.js
+- **Styling:** Tailwind CSS (or your CSS framework)
+- **State Management:** React Hooks (`useState`, `useEffect`)
+- **Routing:** React Router DOM
+- **Icons:** React Icons
+- **API Calls:** Axios
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+1. Clone the repository:  
+```bash
+git clone https://github.com/dogayamohit/mobidudes-admin.git
