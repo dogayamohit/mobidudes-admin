@@ -8,5 +8,5 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), svgr({
     svgrOptions: { icon: true },
   }),],
-  base: '/MD/mobidudesAdmin/',
+  base: '/Mohit/mobidudes-admin/',
 })
