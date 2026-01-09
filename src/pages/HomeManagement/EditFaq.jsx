@@ -16,6 +16,7 @@ const initialFaqData = {
 };
 
 export default function EditFaq() {
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -25,63 +26,95 @@ export default function EditFaq() {
 
   /* -------- FETCH FAQ -------- */
   useEffect(() => {
+
     const fetchFaq = async () => {
+
       try {
+
         setLoading(true);
         const data = await getFaqById(id);
+
         setForm({
           question: data.question,
           answer: data.answer,
         });
+
       } catch {
+
         toast.error("Failed to load FAQ");
         navigate("/faqs");
+
       } finally {
+
         setLoading(false);
+
       }
+
     };
 
     fetchFaq();
+    
   }, [id, navigate]);
 
   /* -------- HANDLE CHANGE -------- */
   const handleChange = (e) => {
+
     const { name, value } = e.target;
+
     setForm((prev) => ({
+
       ...prev,
       [name]: value,
+
     }));
+
   };
 
   /* -------- SUBMIT -------- */
   const handleSubmit = async () => {
+
     if (!form.question || !form.answer) {
+
       toast.error("All fields are required");
       return;
+
     }
 
     try {
+
       setSubmitting(true);
+
       await updateFaq(id, form);
       toast.success("FAQ updated successfully");
       navigate("/faqs");
+
     } catch {
+
       toast.error("Failed to update FAQ");
+
     } finally {
+
       setSubmitting(false);
+
     }
+
   };
 
   if (loading) {
+
     return <div className="p-6 text-gray-500">Loading FAQ...</div>;
+
   }
+
 
   return (
     <>
       <PageBreadcrumb pageTitle="Edit FAQ" />
 
       <div className="rounded-2xl border border-gray-200 bg-white p-6">
+
         <div className="grid gap-6">
+
           {/* Question */}
           <div>
             <Label>Question</Label>
@@ -108,10 +141,12 @@ export default function EditFaq() {
               placeholder="Enter FAQ answer"
             />
           </div>
+
         </div>
 
         {/* Actions */}
         <div className="mt-6 flex justify-end gap-3">
+
           <Button variant="outline" onClick={() => navigate("/faq")}>
             Cancel
           </Button>
@@ -123,6 +158,7 @@ export default function EditFaq() {
           >
             {submitting ? "Updating..." : "Update FAQ"}
           </Button>
+          
         </div>
       </div>
     </>

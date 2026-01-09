@@ -57,7 +57,7 @@ export const downloadCareerResume = async (id) => {
 /* Delete career */
 export const deleteCareer = async (id) => {
   try {
-    const response = await api.post("/admin/career/delete", { id });
+    const response = await api.post(`/admin/career/delete/${id}`);
     return response.data;
   } catch (error) {
     console.error("Delete career failed:", error);
