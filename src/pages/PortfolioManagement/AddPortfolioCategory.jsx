@@ -6,33 +6,50 @@ import Button from "../../components/ui/button/Button";
 import { addPortfolioCategory } from "../../api/portfolio";
 import { toast } from "react-toastify";
 
+
 export default function AddPortfolioCategory() {
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ category: "" });
+
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+
   const handleSubmit = async () => {
     try {
+
       if (!formData.category) {
+
         toast.info("Category cannot be empty");
         return;
+
       }
+
       await addPortfolioCategory({ name: formData.category });
+
       toast.success("Category added successfully");
       navigate("/portfolio-categories");
+
     } catch (error) {
+
       toast.error("Failed to add category");
+
     }
   };
+  
 
   return (
     <>
+
       <PageBreadCrumb pageTitle="Add Category" />
+
       <ComponentCard title="Category Details">
+
         <div className="mb-5">
+
           <label className="block mb-1 font-medium">Category Name</label>
           <input
             type="text"
@@ -41,9 +58,13 @@ export default function AddPortfolioCategory() {
             onChange={(e) => handleChange("category", e.target.value)}
             className="w-full border border-gray-300 rounded px-3 py-2"
           />
+
         </div>
+
         <Button onClick={handleSubmit}>Save</Button>
+
       </ComponentCard>
+
     </>
   );
 }

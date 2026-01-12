@@ -10,7 +10,9 @@ import { getVacancies, toggleVacancyStatus, deleteVacancy } from "../../api/care
 import { AiOutlinePlus } from "react-icons/ai";
 import { toast } from "react-toastify";
 
+
 export default function OpenJobTable() {
+
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
     const [perPage, setPerPage] = useState(5);
@@ -20,10 +22,13 @@ export default function OpenJobTable() {
 
     const navigate = useNavigate();
 
+
     /* ================= FETCH DATA ================= */
     useEffect(() => {
+
         const fetchVacancies = async () => {
             try {
+
                 const res = await getVacancies();
 
                 const mapped = res.map((item, index) => ({
@@ -38,46 +43,67 @@ export default function OpenJobTable() {
                 }));
 
                 setData(mapped);
+
             } catch (error) {
+
                 console.error("Vacancy fetch failed", error);
+
             }
         };
 
         fetchVacancies();
+
     }, []);
+
 
     /* ================= FILTER ================= */
     const filteredData = useMemo(() => {
+
         const keyword = search.toLowerCase();
+
         return data.filter(
+
             (item) =>
                 item.position.toLowerCase().includes(keyword) ||
                 item.experience.toLowerCase().includes(keyword) ||
                 item.status.toLowerCase().includes(keyword)
+
         );
+
     }, [search, data]);
+
 
     /* ================= SORT ================= */
     const sortedData = useMemo(() => {
+
         if (!sortConfig.key) return filteredData;
+
         const sorted = [...filteredData].sort((a, b) => {
+
             const aVal = a[sortConfig.key];
             const bVal = b[sortConfig.key];
+
             return typeof aVal === "string"
                 ? aVal.localeCompare(bVal)
                 : aVal - bVal;
+
         });
+
         return sortConfig.direction === "asc" ? sorted : sorted.reverse();
+
     }, [filteredData, sortConfig]);
+
 
     /* ================= PAGINATION ================= */
     const start = (currentPage - 1) * perPage;
     const paginatedData = sortedData.slice(start, start + perPage);
     const totalPages = Math.ceil(sortedData.length / perPage);
 
+
     /* ================= TOGGLE STATUS ================= */
     const handleToggleStatus = async (row) => {
         try {
+
             await toggleVacancyStatus(row.id, !row.is_active);
 
             setData((prev) =>
@@ -91,20 +117,29 @@ export default function OpenJobTable() {
                         : item
                 )
             );
+
         } catch (error) {
+
             toast.error("Status update failed");
+
         }
     };
 
 
     const handleDelete = async () => {
         try {
+
             await deleteVacancy(deleteRow.id);
+
             setData((prev) => prev.filter((item) => item.id !== deleteRow.id));
             setDeleteRow(null);
+
             toast.success("Deleted successfully");
+
         } catch (error) {
+
             toast.error("Delete failed");
+            
         }
     };
 

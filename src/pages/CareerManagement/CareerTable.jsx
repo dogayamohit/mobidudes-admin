@@ -40,8 +40,11 @@ export default function CarrerTable() {
 
     useEffect(() => {
         const fetchCareers = async () => {
+
             try {
+
                 setLoading(true);
+
                 const res = await getCareerList();
 
                 const mappedData = res.map((item, index) => ({
@@ -83,37 +86,52 @@ export default function CarrerTable() {
                 setData(mappedData);
 
             } catch (err) {
+
                 toast.error("Failed to fetch career applications");
+
             } finally {
+
                 setLoading(false);
+
             }
         };
 
         fetchCareers();
+
     }, []);
 
 
     /* ---------------- FILTER ---------------- */
     const filteredData = useMemo(() => {
+
         return data.filter(
+
             (item) =>
                 // item.name.toLowerCase().includes(search.toLowerCase()) ||
                 // item.email.toString().includes(search) ||
                 item.profile.toLowerCase().includes(search.toLowerCase())
+
         );
+
     }, [search, data]);
 
 
     /* ---------------- SORT ---------------- */
     const sortedData = useMemo(() => {
+
         if (!sortConfig.key) return filteredData;
+
         const sorted = [...filteredData].sort((a, b) => {
+
             const aVal = a[sortConfig.key] ?? "";
             const bVal = b[sortConfig.key] ?? "";
             if (typeof aVal === "string") return aVal.localeCompare(bVal);
             return aVal - bVal;
+
         });
+
         return sortConfig.direction === "asc" ? sorted : sorted.reverse();
+
     }, [filteredData, sortConfig]);
 
     const start = (currentPage - 1) * perPage;
@@ -122,7 +140,9 @@ export default function CarrerTable() {
 
 
     const handleDelete = async () => {
+
         try {
+
             await deleteCareer(deleteRow.id);
 
             setData((prev) =>
@@ -131,14 +151,19 @@ export default function CarrerTable() {
 
             setDeleteRow(null);
             toast.success("Deleted successfully");
+
         } catch (error) {
+
             toast.error("Delete failed");
+
         }
     };
 
 
     const handleDownloadResume = async (row) => {
+
         try {
+
             const res = await downloadCareerResume(row.id);
 
             const blob = new Blob([res.data]);
@@ -152,26 +177,35 @@ export default function CarrerTable() {
 
             link.remove();
             window.URL.revokeObjectURL(url);
+
         } catch (error) {
+
             toast.error("Resume Download Failed");
+
         }
     };
 
 
     const handleSort = (key) => {
+
         if (sortConfig.key === key) {
+
             setSortConfig({
                 key,
                 direction: sortConfig.direction === "asc" ? "desc" : "asc",
             });
+
         } else {
+
             setSortConfig({ key, direction: "asc" });
+
         }
     };
 
 
     // toggel handler 
     const toggleSelect = async (row) => {
+
         const newStatus = !row.select;
 
         try {
@@ -186,9 +220,11 @@ export default function CarrerTable() {
                         : item
                 )
             );
+
         } catch (error) {
-            alert("Failed to update status ❌");
-            console.error(error);
+
+            toast.error("Failed to update status");
+
         }
     };
 
@@ -201,6 +237,7 @@ export default function CarrerTable() {
 
                 {/* Controls */}
                 <div className="mb-4 flex items-center justify-between gap-3">
+
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
@@ -211,6 +248,7 @@ export default function CarrerTable() {
                     </select>
 
                     <div className="flex items-center gap-3">
+
                         <Input
                             type="text"
                             placeholder="Search ..."
@@ -220,21 +258,27 @@ export default function CarrerTable() {
                         />
 
                     </div>
+
                 </div>
 
 
                 {/* Loading */}
                 {loading && (
+
                     <div className="text-center py-6 text-gray-500 font-medium">
                         Loading applications...
                     </div>
+
                 )}
 
                 {/* Table */}
                 <div className="relative overflow-x-auto rounded-xl border border-gray-200">
+
                     <table className="w-full text-sm">
+
                         <thead className="sticky top-0 z-10 bg-gray-50">
                             <tr>
+
                                 {[
                                     { key: "sno", label: "S.No" },
                                     { key: "applid", label: "Application ID" },
@@ -260,10 +304,12 @@ export default function CarrerTable() {
                                         )}
                                     </th>
                                 ))}
+
                             </tr>
                         </thead>
 
                         <tbody className="divide-y divide-gray-100">
+
                             {paginatedData.map((item, index) => (
                                 <tr
                                     key={item.sno}
@@ -300,21 +346,21 @@ export default function CarrerTable() {
 
                                     <td className="px-4 py-4 text-gray-600">
 
-
                                         <button
                                             onClick={() => toggleSelect(item)}
-                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300
-  ${item.select ? "bg-blue-600" : "bg-gray-300"}`}
+                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${item.select ? "bg-blue-600" : "bg-gray-300"}`}
                                         >
                                             <span
-                                                className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300
-    ${item.select ? "translate-x-5" : "translate-x-1"}`}
+                                                className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300${item.select ? "translate-x-5" : "translate-x-1"}`}
                                             />
+
                                         </button>
+
                                     </td>
 
 
                                     <td className="px-4 py-4 text-center">
+
                                         {item.resume ? (
                                             <button
                                                 onClick={() => handleDownloadResume(item)}
@@ -326,10 +372,12 @@ export default function CarrerTable() {
                                         ) : (
                                             <span className="text-gray-400 text-sm">—</span>
                                         )}
+
                                     </td>
 
 
                                     <td className="px-3 py-4 flex gap-2">
+
                                         <Button
                                             onClick={() =>
                                                 navigate(`/careers/view/${item.id}`, {
@@ -347,6 +395,7 @@ export default function CarrerTable() {
                                             variant="delete"
                                             startIcon={<MdDeleteOutline size={20} />}
                                         />
+
                                     </td>
                                 </tr>
                             ))}
@@ -356,6 +405,7 @@ export default function CarrerTable() {
 
                 {/* Pagination */}
                 <div className="mt-6 flex items-center justify-end gap-2">
+
                     <button
                         disabled={currentPage === 1}
                         onClick={() => setCurrentPage((p) => p - 1)}
@@ -363,9 +413,11 @@ export default function CarrerTable() {
                     >
                         Prev
                     </button>
+
                     <span className="text-sm font-medium text-gray-600">
                         Page {currentPage} of {totalPages}
                     </span>
+
                     <button
                         disabled={currentPage === totalPages}
                         onClick={() => setCurrentPage((p) => p + 1)}
@@ -373,6 +425,7 @@ export default function CarrerTable() {
                     >
                         Next
                     </button>
+
                 </div>
             </div>
 
@@ -383,8 +436,10 @@ export default function CarrerTable() {
                 className="flex items-center justify-center max-w-[350px] m-4"
             >
                 <div className="bg-gray-200 rounded-2xl shadow-xl w-full max-w-md p-6 animate-fadeIn">
+
                     <div className="flex flex-col items-center text-center">
                         <div className="bg-red-100 text-red-600 rounded-full p-4 mb-4">
+
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-8 w-8"
@@ -395,6 +450,7 @@ export default function CarrerTable() {
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
+
                         </div>
 
                         <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this item?</h3>
@@ -404,6 +460,7 @@ export default function CarrerTable() {
                         </p>
 
                         <div className="flex justify-center gap-4 w-full">
+
                             <button
                                 onClick={handleDelete}
                                 className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
@@ -416,6 +473,7 @@ export default function CarrerTable() {
                             >
                                 Cancel
                             </button>
+
                         </div>
                     </div>
                 </div>

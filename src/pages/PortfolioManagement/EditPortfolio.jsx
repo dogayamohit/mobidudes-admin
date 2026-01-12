@@ -17,7 +17,9 @@ const getImageUrl = (img) =>
     ? img
     : `${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${img}`;
 
+
 export default function EditPortfolio() {
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -35,11 +37,14 @@ export default function EditPortfolio() {
     image: null, // file only
   });
 
+
   /* ---------------- SET INITIAL DATA ---------------- */
   const location = useLocation();
 
   useEffect(() => {
+
     if (location.state) {
+
       setFormData({
         title: location.state.title || "",
         category_id: location.state.category_id || "",
@@ -56,32 +61,47 @@ export default function EditPortfolio() {
           ? `${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${location.state.image}`
           : null
       );
+
     }
+
   }, [location.state]);
+
   /* ---------------- FETCH CATEGORIES ---------------- */
   useEffect(() => {
+
     fetchCategories();
+
   }, []);
+
 
   const fetchCategories = async () => {
     try {
+
       const res = await getPortfolioCategories();
       setCategories(res);
+
     } catch (err) {
+
       console.error(err);
+
     }
   };
+
 
   /* ---------------- HANDLE CHANGE ---------------- */
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+
   /* ---------------- IMAGE CHANGE ---------------- */
   const handleImageChange = (e) => {
+
     const file = e.target.files[0];
+
     if (file) {
-      console.log("NEW IMAGE SELECTED:", file);
+
+      // console.log("NEW IMAGE SELECTED:", file);
 
       setFormData((prev) => ({
         ...prev,
@@ -89,6 +109,7 @@ export default function EditPortfolio() {
       }));
 
       setPreview(URL.createObjectURL(file));
+
     }
   };
 
@@ -96,6 +117,7 @@ export default function EditPortfolio() {
   /* ---------------- SUBMIT ---------------- */
   const handleSubmit = async () => {
     try {
+
       const payload = new FormData();
 
       payload.append("title", formData.title);
@@ -115,14 +137,17 @@ export default function EditPortfolio() {
 
       toast.success("Portfolio updated successfully");
       navigate("/portfolios");
+
     } catch (err) {
+
       toast.error(err.message);
+
     }
   };
 
 
-
   useEffect(() => {
+
     if (isMobileApp) {
       setFormData((prev) => ({
         ...prev,
@@ -136,19 +161,21 @@ export default function EditPortfolio() {
     (cat) => String(cat.id) === String(formData.category_id)
   );
 
-  const isMobileApp =
-    selectedCategory?.name?.toLowerCase().includes("mobile");
+  const isMobileApp = selectedCategory?.name?.toLowerCase().includes("mobile");
 
 
   return (
     <>
+
       <PageBreadCrumb pageTitle="Edit Portfolio" />
 
       <ComponentCard title="Portfolio Details">
+
         <div className="grid grid-cols-12 gap-4">
 
           {/* Title */}
           <div className="col-span-6">
+
             <label className="block mb-1 font-medium">Title</label>
             <input
               type="text"
@@ -156,10 +183,12 @@ export default function EditPortfolio() {
               onChange={(e) => handleChange("title", e.target.value)}
               className="w-full border rounded px-3 py-2"
             />
+
           </div>
 
           {/* Category */}
           <div className="col-span-6">
+
             <label className="block mb-1 font-medium">Category</label>
             <select
               value={formData.category_id}
@@ -175,11 +204,14 @@ export default function EditPortfolio() {
                 </option>
               ))}
             </select>
+
           </div>
+
 
           {/* Website URL */}
           {!isMobileApp && (
             <div className="col-span-6">
+
               <label className="block mb-1 font-medium">Website URL</label>
               <input
                 type="text"
@@ -187,40 +219,46 @@ export default function EditPortfolio() {
                 onChange={(e) => handleChange("website_url", e.target.value)}
                 className="w-full border rounded px-3 py-2"
               />
+
             </div>
           )}
 
 
           {/* Android URL */}
           {isMobileApp && (
-  <div className="col-span-6">
-    <label className="block mb-1 font-medium">Android URL</label>
-    <input
-      type="text"
-      value={formData.android_url}
-      onChange={(e) => handleChange("android_url", e.target.value)}
-      className="w-full border rounded px-3 py-2"
-    />
-  </div>
-)}
+            <div className="col-span-6">
+
+              <label className="block mb-1 font-medium">Android URL</label>
+              <input
+                type="text"
+                value={formData.android_url}
+                onChange={(e) => handleChange("android_url", e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              />
+
+            </div>
+          )}
 
 
           {/* IOS URL */}
           {isMobileApp && (
-  <div className="col-span-6">
-    <label className="block mb-1 font-medium">IOS URL</label>
-    <input
-      type="text"
-      value={formData.ios_url}
-      onChange={(e) => handleChange("ios_url", e.target.value)}
-      className="w-full border rounded px-3 py-2"
-    />
-  </div>
-)}
+            <div className="col-span-6">
+
+              <label className="block mb-1 font-medium">IOS URL</label>
+              <input
+                type="text"
+                value={formData.ios_url}
+                onChange={(e) => handleChange("ios_url", e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              />
+
+            </div>
+          )}
 
 
           {/* Technologies */}
           <div className="col-span-6">
+
             <label className="block mb-1 font-medium">Technologies</label>
             <input
               type="text"
@@ -228,11 +266,15 @@ export default function EditPortfolio() {
               onChange={(e) => handleChange("technologies", e.target.value)}
               className="w-full border rounded px-3 py-2"
             />
+
           </div>
+
         </div>
+
 
         {/* Image */}
         <div className="mt-5">
+
           <label className="block mb-1 font-medium">Image</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
 
@@ -242,10 +284,12 @@ export default function EditPortfolio() {
               className="mt-3 w-40 h-28 object-cover rounded border"
             />
           )}
+
         </div>
 
         {/* Description */}
         <div className="mt-5">
+
           <label className="block mb-1 font-medium">Description</label>
           <textarea
             rows={4}
@@ -253,12 +297,17 @@ export default function EditPortfolio() {
             onChange={(e) => handleChange("description", e.target.value)}
             className="w-full border rounded p-3"
           />
+
         </div>
+
 
         {/* Save */}
         <div className="mt-6">
+
           <Button onClick={handleSubmit}>Update</Button>
+
         </div>
+        
       </ComponentCard>
     </>
   );

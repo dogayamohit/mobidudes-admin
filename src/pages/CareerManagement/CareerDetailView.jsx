@@ -3,15 +3,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import { MdDownload } from "react-icons/md";
 import { downloadCareerResume } from "../../api/career";
+import { toast } from "react-toastify";
+
 
 export default function CareerPostView() {
+
   const { state } = useLocation();
   const navigate = useNavigate();
 
-
   if (!state) {
+
     navigate("/career", { replace: true });
     return null;
+
   }
 
   const group = state;
@@ -19,6 +23,7 @@ export default function CareerPostView() {
 
   const handleDownloadResume = async () => {
     try {
+
       const res = await downloadCareerResume(group.id);
 
       const blob = new Blob([res.data]);
@@ -30,19 +35,25 @@ export default function CareerPostView() {
       a.click();
 
       window.URL.revokeObjectURL(url);
+
     } catch (error) {
-      alert("Resume download failed ❌");
+
+      toast.error("Resume download failed");
+
     }
   };
 
-  
+
   return (
     <>
       <PageBreadcrumb pageTitle="View Detail" />
 
       <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+
         <Section title="Candidate Information">
+
           <Grid>
+
             <Item label="Application ID" value={group.applid} />
             <Item label="Date" value={group.date} />
             <Item label="Name" value={group.name} />
@@ -70,12 +81,16 @@ export default function CareerPostView() {
                 )
               }
             />
+
           </Grid>
+
         </Section>
+
       </div>
     </>
   );
 }
+
 
 /* ===================== REUSABLE UI ===================== */
 
