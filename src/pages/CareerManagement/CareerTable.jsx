@@ -97,8 +97,9 @@ export default function CarrerTable() {
     const filteredData = useMemo(() => {
         return data.filter(
             (item) =>
-                item.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.email.toString().includes(search)
+                // item.name.toLowerCase().includes(search.toLowerCase()) ||
+                // item.email.toString().includes(search) ||
+                item.profile.toLowerCase().includes(search.toLowerCase())
         );
     }, [search, data]);
 
@@ -152,7 +153,7 @@ export default function CarrerTable() {
             link.remove();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            alert("Resume download failed ❌");
+            toast.error("Resume Download Failed");
         }
     };
 

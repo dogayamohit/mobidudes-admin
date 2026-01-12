@@ -65,7 +65,7 @@ export const deleteFaq = async (id) => {
 /* GET FAQ BY ID */
 export const getFaqById = async (id) => {
   try {
-    const res = await api.post(`/admin/faq/get/${id}`);
+    const res = await api.get(`/admin/faq/get/${id}`);
     return res.data.data;
   } catch (error) {
     console.error("Fetch FAQ failed:", error);

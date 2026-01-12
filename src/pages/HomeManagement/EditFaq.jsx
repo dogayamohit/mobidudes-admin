@@ -147,7 +147,7 @@ export default function EditFaq() {
         {/* Actions */}
         <div className="mt-6 flex justify-end gap-3">
 
-          <Button variant="outline" onClick={() => navigate("/faq")}>
+          <Button variant="outline" onClick={() => navigate("/faqs")}>
             Cancel
           </Button>
 
