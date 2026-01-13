@@ -84,7 +84,8 @@ const ServiceCategoryTable = () => {
 
     return (
         <div className="p-4">
-            <PageBreadCrumb pageTitle="All Service" />
+
+            <PageBreadCrumb pageTitle="All Service Categories" />
 
             <div className="rounded-xl border border-gray-200 bg-white p-4">
                 {/* Search + Add */}

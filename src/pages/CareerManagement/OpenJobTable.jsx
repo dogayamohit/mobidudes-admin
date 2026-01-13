@@ -146,7 +146,7 @@ export default function OpenJobTable() {
 
     return (
         <>
-            <PageBreadcrumb pageTitle=" Data Table" />
+            <PageBreadcrumb pageTitle="Open Jobs" />
 
             <div className="rounded-2xl border border-gray-200 bg-white p-6">
 

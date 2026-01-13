@@ -144,7 +144,7 @@ export default function ReviewTable() {
 
     return (
         <>
-            <PageBreadcrumb pageTitle="Review Table" />
+            <PageBreadcrumb pageTitle="Reviews" />
 
             <div className="rounded-2xl border border-gray-200 bg-white p-6">
 

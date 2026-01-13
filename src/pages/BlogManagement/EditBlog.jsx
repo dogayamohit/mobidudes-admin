@@ -157,6 +157,7 @@ export default function EditBlog() {
   return (
     <>
       <PageBreadCrumb pageTitle="Edit Blog" />
+      
       <ComponentCard title="Blog Details">
 
         {/* Category */}

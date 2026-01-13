@@ -124,7 +124,7 @@ const AllPortfolio = () => {
 
     <div className="p-4">
 
-      <PageBreadCrumb pageTitle="All Portfolio Data" />
+      <PageBreadCrumb pageTitle="All Portfolio" />
 
       <div className="rounded-xl border border-gray-200 bg-white p-4">
 

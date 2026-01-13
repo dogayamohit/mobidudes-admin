@@ -143,7 +143,7 @@ export default function OpenjobTable() {
 
     return (
         <>
-            <PageBreadcrumb pageTitle="Services" />
+            <PageBreadcrumb pageTitle="All Services" />
 
             <div className="rounded-2xl border border-gray-200 bg-white p-6">
 

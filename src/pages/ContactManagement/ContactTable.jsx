@@ -125,7 +125,7 @@ export default function ContactTable() {
 
     return (
         <>
-            <PageBreadcrumb pageTitle="Contact Data Table" />
+            <PageBreadcrumb pageTitle="Contacts" />
 
             <div className="rounded-2xl border border-gray-200 bg-white p-6">
                 <h3 className="mb-4 text-lg font-semibold">Users</h3>
