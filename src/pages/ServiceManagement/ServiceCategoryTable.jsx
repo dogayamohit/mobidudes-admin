@@ -19,6 +19,7 @@ const ServiceCategoryTable = () => {
     const [perPage, setPerPage] = useState(5);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
     const [data, setData] = useState([]);
+    
 
     useEffect(() => {
         const fetchCategories = async () => {
