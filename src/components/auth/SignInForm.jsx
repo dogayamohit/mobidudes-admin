@@ -49,7 +49,7 @@ export default function SignInForm() {
       }, 800);
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Invalid email or password"
+        error.response?.data?.message 
       );
     } finally {
       setLoading(false);

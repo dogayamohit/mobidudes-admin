@@ -12,10 +12,15 @@ import Select from "../../components/form/Select";
 import { getPortfolios, deletePortfolio, getPortfolioCategories } from "../../api/portfolio";
 import { toast } from "react-toastify";
 /* ---------- MEDIA URL HELPER ---------- */
-const getImageUrl = (img) =>
-  img?.startsWith("http")
-    ? img
-    : `${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${img}`;
+const getImageUrl = (img) => {
+  if (!img) return "";
+
+  const firstImage = img.split(",")[0]; // ✅ take only first image
+
+  return firstImage.startsWith("http")
+    ? firstImage
+    : `${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${firstImage}`;
+};
 
 const AllPortfolio = () => {
   const navigate = useNavigate();
@@ -161,7 +166,7 @@ const AllPortfolio = () => {
 
           </div>
         </div>
-        
+
 
         {/* Table */}
         <div className="overflow-x-auto rounded-xl border border-gray-200">

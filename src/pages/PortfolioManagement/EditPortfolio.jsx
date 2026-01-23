@@ -24,7 +24,8 @@ export default function EditPortfolio() {
   const { id } = useParams();
 
   const [categories, setCategories] = useState([]);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState([]); // array
+  const [existingImages, setExistingImages] = useState([]); // from backend
 
   const [formData, setFormData] = useState({
     title: "",
@@ -34,17 +35,41 @@ export default function EditPortfolio() {
     ios_url: "",
     technologies: "",
     description: "",
-    image: null, // file only
+    image: [], // new images (File[])
   });
+
 
 
   /* ---------------- SET INITIAL DATA ---------------- */
   const location = useLocation();
 
+  // useEffect(() => {
+
+  //   if (location.state) {
+
+  //     setFormData({
+  //       title: location.state.title || "",
+  //       category_id: location.state.category_id || "",
+  //       website_url: location.state.website_url || "",
+  //       android_url: location.state.android_url || "",
+  //       ios_url: location.state.ios_url || "",
+  //       technologies: location.state.technologies || "",
+  //       description: location.state.description || "",
+  //       image: null, // IMPORTANT
+  //     });
+
+  //     setPreview(
+  //       location.state.image
+  //         ? `${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${location.state.image}`
+  //         : null
+  //     );
+
+  //   }
+
+  // }, [location.state]);
+
   useEffect(() => {
-
     if (location.state) {
-
       setFormData({
         title: location.state.title || "",
         category_id: location.state.category_id || "",
@@ -53,18 +78,19 @@ export default function EditPortfolio() {
         ios_url: location.state.ios_url || "",
         technologies: location.state.technologies || "",
         description: location.state.description || "",
-        image: null, // IMPORTANT
+        image: [],
       });
 
-      setPreview(
-        location.state.image
-          ? `${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${location.state.image}`
-          : null
-      );
+      if (location.state.image) {
+        const imgs = location.state.image.split(",");
 
+        setExistingImages(imgs);
+        setPreview(imgs.map((img) => getImageUrl(img)));
+      }
     }
-
   }, [location.state]);
+
+
 
   /* ---------------- FETCH CATEGORIES ---------------- */
   useEffect(() => {
@@ -96,52 +122,96 @@ export default function EditPortfolio() {
 
   /* ---------------- IMAGE CHANGE ---------------- */
   const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
 
-    const file = e.target.files[0];
+    setFormData((prev) => ({
+      ...prev,
+      image: [...prev.image, ...files],
+    }));
 
-    if (file) {
+    setPreview((prev) => [
+      ...prev,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
 
-      // console.log("NEW IMAGE SELECTED:", file);
-
-      setFormData((prev) => ({
-        ...prev,
-        image: file,
-      }));
-
-      setPreview(URL.createObjectURL(file));
-
-    }
+    e.target.value = "";
   };
 
 
+  const handleRemoveImage = (index) => {
+    // if index belongs to existing images
+    if (index < existingImages.length) {
+      setExistingImages((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      const newIndex = index - existingImages.length;
+      setFormData((prev) => ({
+        ...prev,
+        image: prev.image.filter((_, i) => i !== newIndex),
+      }));
+    }
+
+    setPreview((prev) => prev.filter((_, i) => i !== index));
+  };
+
+
+
   /* ---------------- SUBMIT ---------------- */
+  // const handleSubmit = async () => {
+  //   try {
+
+  //     const payload = new FormData();
+
+  //     payload.append("title", formData.title);
+  //     payload.append("category_id", formData.category_id);
+  //     payload.append("website_url", formData.website_url);
+  //     payload.append("android_url", formData.android_url);
+  //     payload.append("ios_url", formData.ios_url);
+  //     payload.append("technologies", formData.technologies);
+  //     payload.append("description", formData.description);
+
+  //     // ⭐ only append if new image selected
+  //     if (formData.image instanceof File) {
+  //       payload.append("image", formData.image);
+  //     }
+
+  //     await updatePortfolio(id, payload);
+
+  //     toast.success("Portfolio updated successfully");
+  //     navigate("/portfolios");
+
+  //   } catch (err) {
+
+  //     toast.error(err.message);
+
+  //   }
+  // };
+
   const handleSubmit = async () => {
     try {
-
       const payload = new FormData();
 
-      payload.append("title", formData.title);
-      payload.append("category_id", formData.category_id);
-      payload.append("website_url", formData.website_url);
-      payload.append("android_url", formData.android_url);
-      payload.append("ios_url", formData.ios_url);
-      payload.append("technologies", formData.technologies);
-      payload.append("description", formData.description);
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key !== "image" && value !== "" && value !== null) {
+          payload.append(key, value);
+        }
+      });
 
-      // ⭐ only append if new image selected
-      if (formData.image instanceof File) {
-        payload.append("image", formData.image);
+      // existing images (comma-separated)
+      if (existingImages.length) {
+        payload.append("existing_images", existingImages.join(","));
       }
 
-      await updatePortfolio(id, payload);
+      // new images
+      formData.image.forEach((file) => {
+        payload.append("image", file);
+      });
 
+      await updatePortfolio(id, payload);
       toast.success("Portfolio updated successfully");
       navigate("/portfolios");
-
     } catch (err) {
-
-      toast.error(err.message);
-
+      toast.error("Update failed");
     }
   };
 
@@ -274,18 +344,34 @@ export default function EditPortfolio() {
 
         {/* Image */}
         <div className="mt-5">
-
           <label className="block mb-1 font-medium">Image</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
 
-          {preview && (
-            <img
-              src={preview}
-              className="mt-3 w-40 h-28 object-cover rounded border"
-            />
-          )}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+          />
 
+          <div className="flex gap-3 mt-3 flex-wrap">
+            {preview.map((img, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={img}
+                  className="w-40 h-28 object-cover rounded border"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
+
 
         {/* Description */}
         <div className="mt-5">
@@ -307,7 +393,7 @@ export default function EditPortfolio() {
           <Button onClick={handleSubmit}>Update</Button>
 
         </div>
-        
+
       </ComponentCard>
     </>
   );

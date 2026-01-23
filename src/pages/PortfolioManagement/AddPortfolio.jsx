@@ -14,7 +14,7 @@ export default function AddPortfolio() {
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -24,7 +24,7 @@ export default function AddPortfolio() {
     ios_url: "",
     technologies: "",
     description: "",
-    image: null,
+    image: [],
   });
 
   /* ---------------- FETCH CATEGORIES ---------------- */
@@ -71,41 +71,58 @@ export default function AddPortfolio() {
 
   /* ---------------- IMAGE CHANGE ---------------- */
   const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
 
-    const file = e.target.files[0];
+    if (!files.length) return;
 
-    if (file) {
-      setFormData((prev) => ({ ...prev, image: file }));
-      setPreview(URL.createObjectURL(file));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      image: [...prev.image, ...files], // ✅ append
+    }));
 
+    setPreview((prev) => [
+      ...prev,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
+
+    e.target.value = ""; // ✅ allow re-select same image
   };
+
+  const handleRemoveImage = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      image: prev.image.filter((_, i) => i !== index),
+    }));
+
+    setPreview((prev) => prev.filter((_, i) => i !== index));
+  };
+
+
 
   /* ---------------- SUBMIT ---------------- */
   const handleSubmit = async () => {
     try {
-
       const payload = new FormData();
 
       Object.entries(formData).forEach(([key, value]) => {
-
-        if (value !== null && value !== "") {
+        if (key !== "image" && value !== null && value !== "") {
           payload.append(key, value);
         }
+      });
 
+      // 👇 SAME key "image" multiple times
+      formData.image.forEach((file) => {
+        payload.append("image", file);
       });
 
       await addPortfolio(payload);
-
       toast.success("Portfolio added successfully");
       navigate("/portfolios");
-
     } catch (err) {
-
       toast.error("Failed to add portfolio");
-
     }
   };
+
 
   const selectedCategory = categories.find(
     (cat) => String(cat.id) === String(formData.category_id)
@@ -116,7 +133,7 @@ export default function AddPortfolio() {
 
   return (
     <>
-    
+
       <PageBreadCrumb pageTitle="Add Portfolio" />
 
       <ComponentCard title="Portfolio Details">
@@ -222,14 +239,34 @@ export default function AddPortfolio() {
         <div className="mt-5">
 
           <label className="block mb-1 font-medium">Image</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+          />
 
-          {preview && (
-            <img
-              src={preview}
-              className="mt-3 w-40 h-28 object-cover rounded border"
-            />
-          )}
+
+          <div className="flex gap-3 mt-3 flex-wrap">
+            {preview.map((img, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={img}
+                  className="w-40 h-28 object-cover rounded border"
+                />
+
+                {/* Delete button */}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
 
         </div>
 
