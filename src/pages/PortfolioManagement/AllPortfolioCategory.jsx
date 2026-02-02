@@ -11,6 +11,7 @@ import {
   deletePortfolioCategory,
 } from "../../api/portfolio";
 import { toast } from "react-toastify";
+import { AiOutlinePlus } from "react-icons/ai";
 
 
 export default function AllPortfoliocategory() {
@@ -21,7 +22,7 @@ export default function AllPortfoliocategory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  
+
   /* ---------- FETCH DATA ---------- */
   const fetchData = async () => {
     try {
@@ -40,7 +41,7 @@ export default function AllPortfoliocategory() {
 
     }
   };
-  
+
 
   useEffect(() => {
 
@@ -102,6 +103,7 @@ export default function AllPortfoliocategory() {
             onClick={() =>
               navigate("/portfolio-categories/add")
             }
+            startIcon={<AiOutlinePlus />}
           >
             Add
           </Button>
@@ -114,66 +116,67 @@ export default function AllPortfoliocategory() {
           <table className="w-full text-sm">
 
             <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">S.No</th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Category</th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {loading ? (
               <tr>
-                <td colSpan={3} className="text-center py-4">
-                  Loading...
-                </td>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">S.No</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Category</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Action</th>
               </tr>
-            ) : filteredData.length === 0 ? (
-              <tr>
-                <td colSpan={3} className="text-center py-4">
-                  No categories found
-                </td>
-              </tr>
-            ) : (
-              filteredData.map((row) => (
-                <tr key={row.id} className="border-b border-gray-200">
-                  <td className="px-4 py-3">{row.sno}</td>
-                  <td className="px-4 py-3">{row.name}</td>
-                  <td className="px-4 py-3 flex gap-2">
+            </thead>
 
-                    <Button
-                      size="sm"
-                      variant="edit"
-                      onClick={() =>
-                        navigate(
-                          `/portfolio-categories/edit/${row.id}`,
-                          { state: row }
-                        )
-                      }
-                      startIcon={<CiEdit size={20} />}
-                    />
-                    <Button
-                      size="sm"
-                      variant="delete"
-                      onClick={() => setDeleteRow(row)}
-                      startIcon={<MdDeleteOutline size={20} />}
-                    />
-
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={3} className="text-center py-4">
+                    Loading...
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
+              ) : filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="text-center py-4">
+                    No categories found
+                  </td>
+                </tr>
+              ) : (
+                filteredData.map((row) => (
+                  <tr key={row.id} className="border-b border-gray-200">
+                    <td className="px-4 py-3">{row.sno}</td>
+                    <td className="px-4 py-3">{row.name}</td>
+                    <td className="px-4 py-3 flex gap-2">
 
-        </table>
+                      <Button
+                        size="sm"
+                        variant="edit"
+                        onClick={() =>
+                          navigate(
+                            `/portfolio-categories/edit/${row.id}`,
+                            { state: row }
+                          )
+                        }
+                        startIcon={<CiEdit size={20} />}
+                      />
+                      <Button
+                        size="sm"
+                        variant="delete"
+                        onClick={() => setDeleteRow(row)}
+                        startIcon={<MdDeleteOutline size={20} />}
+                      />
 
-      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+
+          </table>
+
+        </div>
       </div>
 
 
       {/* Delete Modal */}
       <Modal
         isOpen={!!deleteRow}
+        showCloseButton={false}
         onClose={() => setDeleteRow(null)}
         className="flex items-center justify-center max-w-[350px] m-4"
       >
@@ -200,12 +203,13 @@ export default function AllPortfoliocategory() {
             </div>
 
             <h3 className="text-xl font-semibold mb-2 text-gray-800">
-              Delete this item?
+              Delete this Portfolio Category?
             </h3>
 
             <p className="text-gray-500 mb-6">
-              This action cannot be undone. Are you sure you want to delete{" "}
-              <span className="font-medium text-gray-700">{deleteRow?.name}</span>?
+              {/* This action cannot be undone.  */}
+              Are you sure you want to delete.{" "}
+              {/* <span className="font-medium text-gray-700">{deleteRow?.name}</span>? */}
             </p>
 
             <div className="flex justify-center gap-4 w-full">

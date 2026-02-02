@@ -43,7 +43,7 @@ function MainContent({ sidebarOpen, toggleSidebar }) {
       <AppHeader sidebarOpen={sidebarOpen} setSidebarOpen={toggleSidebar} />
 
       {/* Page Content */}
-      <main className="flex-1 p-4 md:p-6">
+      <main className="flex-1 p-2 md:p-4">
         <div className="mx-auto max-w-screen-2xl">
           <Outlet />
         </div>

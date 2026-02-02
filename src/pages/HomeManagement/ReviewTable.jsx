@@ -8,6 +8,7 @@ import { IoIosEye } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import { getReviews, deleteReview } from "../../api/home";
 import { toast } from "react-toastify";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export default function ReviewTable() {
 
@@ -160,13 +161,23 @@ export default function ReviewTable() {
                         <option value={10}>10 rows</option>
                     </select>
 
-                    <Input
-                        type="text"
-                        placeholder="Search ..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
-                    />
+                    <div className="flex gap-3">
+                        <div className="max-w-[300px] w-full">
+                            <Input
+                                placeholder="Search..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </div>
+
+                        <Button
+                            variant="primary"
+                            onClick={() => navigate("/reviews/add")}
+                            startIcon={<AiOutlinePlus />}
+                        >
+                            Add
+                        </Button>
+                    </div>
 
                 </div>
 
@@ -319,10 +330,11 @@ export default function ReviewTable() {
 
                         </div>
 
-                        <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this item?</h3>
+                        <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this Review?</h3>
                         <p className="text-gray-500 mb-6">
-                            This action cannot be undone. Are you sure you want to delete{" "}
-                            <span className="font-medium text-gray-700">{deleteRow?.name}</span>?
+                            {/* This action cannot be undone. <br /> */}
+                            Are you sure you want to delete.{" "}
+                            {/* <span className="font-medium text-gray-700">{deleteRow?.name}</span> Review ? */}
                         </p>
 
                         <div className="flex justify-center gap-4 w-full">

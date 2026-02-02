@@ -8,6 +8,7 @@ import Button from "../../components/ui/button/Button";
 import { Modal } from "../../components/ui/fullScreenModal/Modal";
 import PageBreadCrumb from "../../components/common/PageBreadCrumb";
 import { toast } from "react-toastify";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const AllBlogs = () => {
   const navigate = useNavigate();
@@ -114,6 +115,7 @@ const AllBlogs = () => {
             <Button
               variant="primary"
               onClick={() => navigate("/blogs/add")}
+              startIcon={<AiOutlinePlus />}
             >
               Add
             </Button>
@@ -208,10 +210,11 @@ const AllBlogs = () => {
               </svg>
             </div>
 
-            <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this item?</h3>
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this Blog?</h3>
             <p className="text-gray-500 mb-6">
-              This action cannot be undone. Are you sure you want to delete{" "}
-              <span className="font-medium text-gray-700">{deleteRow?.title}</span>?
+              {/* This action cannot be undone.  */}
+              Are you sure you want to delete.{" "}
+              {/* <span className="font-medium text-gray-700">{deleteRow?.title}</span>? */}
             </p>
 
             <div className="flex justify-center gap-4 w-full">

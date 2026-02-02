@@ -158,7 +158,7 @@ export default function FaqTable() {
                   <td className="px-4 py-3 max-w-[400px] text-gray-600">
                     {item.answer}
                   </td>
-                  <td className="px-4 py-3">{item.createdAt}</td>
+                  <td className="px-4 py-3">{item.createdAt.split("T")[0]}</td>
                   <td className="px-4 py-3 flex gap-2">
                     <Button
                       size="sm"
@@ -224,11 +224,12 @@ export default function FaqTable() {
               </svg>
             </div>
 
-            <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this item?</h3>
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this FAQ?</h3>
             <p className="text-gray-500 mb-6">
-              This action cannot be undone. Are you sure you want to delete{" "}
+              {/* This action cannot be undone. <br />  */}
+              Are you sure you want to delete.{" "}
               <br />
-              <span className="font-medium text-gray-700">{deleteRow?.question}</span>?
+              {/* <span className="font-medium text-gray-700">{deleteRow?.question}</span> */}
             </p>
 
             <div className="flex justify-center gap-4 w-full">

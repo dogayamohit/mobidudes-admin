@@ -454,10 +454,11 @@ export default function CarrerTable() {
 
                         </div>
 
-                        <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this item?</h3>
+                        <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this Candidate?</h3>
                         <p className="text-gray-500 mb-6">
-                            This action cannot be undone. Are you sure you want to delete{" "}
-                            <span className="font-medium text-gray-700">{deleteRow?.name}</span>?
+                            {/* This action cannot be undone.  */}
+                            Are you sure you want to delete.{" "}
+                            {/* <span className="font-medium text-gray-700">{deleteRow?.name}</span>? */}
                         </p>
 
                         <div className="flex justify-center gap-4 w-full">

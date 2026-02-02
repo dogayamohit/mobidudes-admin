@@ -247,6 +247,8 @@ export default function AddPortfolio() {
           />
 
 
+
+
           <div className="flex gap-3 mt-3 flex-wrap">
             {preview.map((img, index) => (
               <div key={index} className="relative">

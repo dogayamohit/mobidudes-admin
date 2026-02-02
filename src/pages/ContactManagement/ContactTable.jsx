@@ -127,7 +127,7 @@ export default function ContactTable() {
         <>
             <PageBreadcrumb pageTitle="Contacts" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div className="rounded-2xl border border-gray-200 bg-white p-3">
                 <h3 className="mb-4 text-lg font-semibold">Users</h3>
 
                 {/* Controls */}
@@ -316,11 +316,12 @@ export default function ContactTable() {
                             </svg>
                         </div>
 
-                        <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this item?</h3>
+                        <h3 className="text-xl font-semibold mb-2 text-gray-800">Delete this Contact?</h3>
                         <p className="text-gray-500 mb-6">
-                            This action cannot be undone. Are you sure you want to delete{" "}
+                            {/* This action cannot be undone.  */}
+                            Are you sure you want to delete.{" "}
                             <br />
-                            <span className="font-medium text-gray-700">{deleteRow?.name}</span>?
+                            {/* <span className="font-medium text-gray-700">{deleteRow?.name}</span>? */}
                         </p>
 
                         <div className="flex justify-center gap-4 w-full">

@@ -32,7 +32,7 @@ const metrics = [
         ),
     },
     {
-        name: "Career",
+        name: "Job Applications",
         key: "career",
         value: "6",
         path: "careers/open-jobs",
@@ -60,7 +60,7 @@ const metrics = [
         ),
     },
     {
-        name: "Vaccancy",
+        name: "Vacancy",
         key: "vacancy",
         value: "120",
         path: "careers/open-jobs",
@@ -84,7 +84,29 @@ const metrics = [
         name: "Services",
         key: "services",
         value: "389",
-        path: "/",
+        path: "/services",
+        gradient: "from-zinc-300 to-white",
+        icon: (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-6 h-6 text-zinc-600"
+            >
+                <path d="M12 2a6 6 0 0 0-4 10c.5.5 1 1.5 1 2h6c0-.5.5-1.5 1-2a6 6 0 0 0-4-10z" />
+                <path d="M9 18h6" />
+                <path d="M10 22h4" />
+            </svg>
+        ),
+    }, {
+        name: "Portfolio",
+        key: "portfolio",
+        value: "3",
+        path: "/portfolios",
         gradient: "from-blue-200 to-white",
         icon: (
             <svg
@@ -97,9 +119,8 @@ const metrics = [
                 strokeLinejoin="round"
                 className="w-6 h-6 text-blue-600"
             >
-                <rect x="3" y="4" width="18" height="18" rx="2" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="16" y1="2" x2="16" y2="6" />
+                <path d="M3 4h18v6H3z" />
+                <path d="M3 10h18v10H3z" />
             </svg>
         ),
     },
@@ -136,7 +157,7 @@ export default function DashboardMetrics() {
                     blogs: blogTotal,
                     services: serviceTotal,
                     vacancy: vacancyTotal,
-                    career: careerTotal, 
+                    career: careerTotal,
                 }));
             } catch (error) {
                 console.error(error);
@@ -162,7 +183,8 @@ export default function DashboardMetrics() {
                     {/* Text */}
                     <div>
                         <h4 className="text-2xl font-semibold text-gray-800">
-                            {counts[item.key]}
+                            {counts[item.key] ?? item.value}
+
                         </h4>
 
                         <span className="text-sm text-gray-500">

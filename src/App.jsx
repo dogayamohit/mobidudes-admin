@@ -48,6 +48,7 @@ import ReviewView from "./pages/HomeManagement/ReviewView";
 import OpenJobTable from "./pages/CareerManagement/OpenJobTable";
 import OpenJobEdit from "./pages/CareerManagement/OpenJobEdit";
 import AddOpenjob from "./pages/CareerManagement/AddOpenjob";
+import AddReview from "./pages/HomeManagement/AddReview";
 
 
 function App() {
@@ -107,6 +108,7 @@ function App() {
             {/* Reviews */}
             <Route path="reviews" element={<ReviewTable />} />
             <Route path="reviews/view/:id" element={<ReviewView />} />
+            <Route path="reviews/add" element={<AddReview />} />
 
             {/* Not Found */}
             <Route path="*" element={<NotFound />} />
