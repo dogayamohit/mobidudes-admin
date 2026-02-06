@@ -77,40 +77,53 @@ export default function EditserviceCategory() {
         <>
             <PageBreadCrumb pageTitle="Edit Category" />
 
-            <ComponentCard title="Category Details">
-                <div className="grid grid-cols-12 gap-4 mb-5">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
 
-                    <div className="col-span-12 md:col-span-6">
-                        <label className="block mb-1 font-medium">Edit Category</label>
-                        <input
-                            type="text"
-                            value={formData.title}
-                            onChange={(e) => handleChange("title", e.target.value)}
-                            className="w-full border rounded px-3 py-2"
-                        />
-                    </div>
 
-                    <div className="col-span-12 md:col-span-6">
-                        <label className="block mb-1 font-medium">Choose Icon</label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="w-full border rounded px-3 py-2"
-                        />
+                <ComponentCard title="Category Details">
+                    <div className="grid grid-cols-12 gap-4 mb-5">
 
-                        {formData.preview && (
-                            <img
-                                src={formData.preview}
-                                alt="Preview"
-                                className="mt-2 w-20 h-20 object-cover rounded border"
+                        <div className="col-span-12 md:col-span-6">
+                            <label className="block mb-1 font-medium">Edit Category</label>
+                            <input
+                                type="text"
+                                value={formData.title}
+                                onChange={(e) => handleChange("title", e.target.value)}
+                                className="w-full border rounded px-3 py-2"
                             />
-                        )}
-                    </div>
-                </div>
+                        </div>
 
-                <Button onClick={handleSubmit}>Update</Button>
-            </ComponentCard>
+                        <div className="col-span-12 md:col-span-6">
+                            <label className="block mb-1 font-medium">Choose Icon</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="w-full border rounded px-3 py-2"
+                            />
+
+                            {formData.preview && (
+                                <img
+                                    src={formData.preview}
+                                    alt="Preview"
+                                    className="mt-2 w-20 h-20 object-cover rounded border"
+                                />
+                            )}
+                        </div>
+                    </div>
+
+                    <Button onClick={handleSubmit}>Update</Button>
+                </ComponentCard>
+
+            </div>
         </>
     );
 }

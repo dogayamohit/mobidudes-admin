@@ -132,41 +132,50 @@ const AllPortfolio = () => {
 
       <PageBreadCrumb pageTitle="All Portfolio" />
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
         {/* Search + Filter + Add */}
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <div className="max-w-[300px] w-full">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
+          {/* Search input */}
+          <div className="w-full sm:max-w-[300px]">
             <Input
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              className="w-full"
             />
-
           </div>
 
-          <div className="flex gap-3">
+          {/* Filter + Add button */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
 
             <Select
               options={categoryOptions}
               placeholder="Filter by Category"
               value={selectedCategory}
               onChange={setSelectedCategory}
-              className="max-w-[200px]"
+              className="w-full sm:max-w-[200px]"
             />
 
             <Button
               variant="primary"
-              onClick={() =>
-                navigate("/portfolios/add")
-              }
+              onClick={() => navigate("/portfolios/add")}
               startIcon={<AiOutlinePlus />}
             >
               Add
             </Button>
 
           </div>
+
         </div>
 
 

@@ -59,7 +59,7 @@ export default function OpenjobTable() {
 
                     return {
                         id: item.id,
-                        sno: index + 1,
+                        // sno: index + 1,
 
                         category_id: String(item.category_id),
                         category: item.service_category?.name || "—",
@@ -145,11 +145,20 @@ export default function OpenjobTable() {
         <>
             <PageBreadcrumb pageTitle="All Services" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
 
                 {/* Controls */}
-                <div className="mb-4 flex justify-between items-center">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
+                    {/* Rows per page select */}
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
@@ -159,25 +168,23 @@ export default function OpenjobTable() {
                         <option value={10}>10 rows</option>
                     </select>
 
-                    <div className="flex gap-3">
-
+                    {/* Search + Add button */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
                         <Input
                             type="text"
                             placeholder="Search post..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                            className="w-full sm:min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
                         />
 
                         <Button
                             variant="primary"
                             onClick={() => navigate("/services/add")}
-
                             startIcon={<AiOutlinePlus />}
                         >
                             Add
                         </Button>
-
                     </div>
 
                 </div>
@@ -220,47 +227,27 @@ export default function OpenjobTable() {
 
                         </thead>
 
-                        <tbody className="">
+                        <tbody>
+                            {paginatedData.map((item, index) => (
+                                <tr key={item.id} className="hover:bg-gray-50 border border-gray-200">
+                                    {/* Serial Number */}
+                                    <td className="px-4 py-3">{(currentPage - 1) * perPage + index + 1}</td>
 
-                            {paginatedData.map((item) => (
-
-                                <tr key={item.sno} className="hover:bg-gray-50 border border-gray-200">
-
-                                    <td className="px-4 py-3">{item.sno}</td>
                                     <td className="px-4 py-3">{item.category}</td>
                                     <td className="px-4 py-3 font-medium">{item.shortDescription}</td>
                                     <td className="px-4 py-3 text-gray-600 max-w-[300px]">
-
-                                        <div className="line-clamp-3 overflow-hidden break-words">
-                                            {item.descriptionHTML}
-                                        </div>
-
+                                        <div className="line-clamp-3 overflow-hidden break-words">{item.descriptionHTML}</div>
                                     </td>
-
                                     <td className="px-4 py-3">
-                                        <img
-                                            src={item.primaryImg}
-                                            alt="Primary"
-                                            className="w-25 h-15 object-cover rounded"
-                                        />
+                                        <img src={item.primaryImg} alt="Primary" className="w-25 h-15 object-cover rounded" />
                                     </td>
 
                                     <td className="px-4 py-3 flex gap-3">
-                                        {/* <Button
-                                            onClick={() => navigate(`/user/posts/view/${item.sno}`)}
-                                            size="sm"
-                                            variant="view"
-                                            startIcon={<IoIosEye size={20} />}
-                                        /> */}
-
                                         <Button
                                             size="sm"
                                             variant="edit"
                                             startIcon={<CiEdit size={18} />}
-                                            onClick={() => navigate(`/services/edit/${item.id}`, {
-                                                state: item
-                                            }
-                                            )}
+                                            onClick={() => navigate(`/services/edit/${item.id}`, { state: item })}
                                         />
                                         <Button
                                             size="sm"
@@ -268,12 +255,9 @@ export default function OpenjobTable() {
                                             startIcon={<MdDeleteOutline size={18} />}
                                             onClick={() => setDeleteRow(item)}
                                         />
-
                                     </td>
-
                                 </tr>
                             ))}
-
                         </tbody>
 
                     </table>
@@ -361,7 +345,7 @@ export default function OpenjobTable() {
                     </div>
 
                 </div>
-                
+
             </Modal>
         </>
     );

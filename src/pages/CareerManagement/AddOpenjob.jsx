@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 export default function AddOpenjob() {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     open_roles: "",
@@ -76,55 +76,67 @@ export default function AddOpenjob() {
     <>
       <PageBreadCrumb pageTitle="Add Open Job" />
 
-      <ComponentCard title="Open Job Details">
-        <div className="flex gap-4">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
-          {/* No of Openings */}
-          <div className="mb-5 w-1/3">
-            <label className="block mb-1 font-medium">No of Openings</label>
-            <input
-              type="number"
-              placeholder="Enter openings"
-              value={formData.open_roles}
-              onChange={(e) => handleChange("open_roles", e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
+        <ComponentCard title="Open Job Details">
+          <div className="flex gap-4">
+
+            {/* No of Openings */}
+            <div className="mb-5 w-1/3">
+              <label className="block mb-1 font-medium">No of Openings</label>
+              <input
+                type="number"
+                placeholder="Enter openings"
+                value={formData.open_roles}
+                onChange={(e) => handleChange("open_roles", e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              />
+            </div>
+
+            {/* Position (ROLE) */}
+            <div className="mb-5 w-1/3">
+              <label className="block mb-1 font-medium">Position</label>
+              <select
+                value={formData.role_id}
+                onChange={(e) => handleChange("role_id", e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              >
+                <option value="">Select Position</option>
+                {roles.map((role) => (
+                  <option key={role.id} value={role.id}>
+                    {role.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Experience */}
+            <div className="mb-5 w-1/3">
+              <label className="block mb-1 font-medium">Experience</label>
+              <input
+                type="text"
+                placeholder="e.g. 2-4 Years"
+                value={formData.experience}
+                onChange={(e) => handleChange("experience", e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              />
+            </div>
           </div>
 
-          {/* Position (ROLE) */}
-          <div className="mb-5 w-1/3">
-            <label className="block mb-1 font-medium">Position</label>
-            <select
-              value={formData.role_id}
-              onChange={(e) => handleChange("role_id", e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="">Select Position</option>
-              {roles.map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <Button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Saving..." : "Save"}
+          </Button>
+        </ComponentCard>
 
-          {/* Experience */}
-          <div className="mb-5 w-1/3">
-            <label className="block mb-1 font-medium">Experience</label>
-            <input
-              type="text"
-              placeholder="e.g. 2-4 Years"
-              value={formData.experience}
-              onChange={(e) => handleChange("experience", e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
-        </div>
-
-        <Button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Saving..." : "Save"}
-        </Button>
-      </ComponentCard>
+      </div>
     </>
   );
 }

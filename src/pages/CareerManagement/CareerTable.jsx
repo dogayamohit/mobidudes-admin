@@ -50,7 +50,7 @@ export default function CarrerTable() {
                 const mappedData = res.map((item, index) => ({
                     id: item.id,
 
-                    sno: index + 1,
+                    // sno: index + 1,
 
                     applid: `APP-${String(item.id).padStart(3, "0")}`,
 
@@ -233,33 +233,40 @@ export default function CarrerTable() {
         <>
             <PageBreadcrumb pageTitle="Job Applications" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
 
                 {/* Controls */}
-                <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
+                    {/* Rows per page select */}
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
-                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        className="w-full sm:w-auto rounded-lg border border-gray-200 px-3 py-2 text-sm"
                     >
                         <option value={5}>5 rows</option>
                         <option value={10}>10 rows</option>
                     </select>
 
-                    <div className="flex items-center gap-3">
-
-                        <Input
-                            type="text"
-                            placeholder="Search ..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
-                        />
-
-                    </div>
+                    {/* Search input */}
+                    <Input
+                        type="text"
+                        placeholder="Search ..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full sm:min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                    />
 
                 </div>
+
 
 
                 {/* Loading */}
@@ -309,59 +316,35 @@ export default function CarrerTable() {
                         </thead>
 
                         <tbody className="divide-y divide-gray-100">
-
                             {paginatedData.map((item, index) => (
                                 <tr
-                                    key={item.sno}
-                                    className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"
-                                        }`}
+                                    key={item.id} // use id, not sno
+                                    className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
                                 >
+                                    {/* Dynamic S.No */}
                                     <td className="px-4 py-4 font-medium text-gray-800">
-                                        {item.sno}
+                                        {(currentPage - 1) * perPage + index + 1}
                                     </td>
 
+                                    <td className="px-4 py-4 text-gray-600">{item.applid}</td>
+                                    <td className="px-4 py-4 text-gray-600">{item.date}</td>
+                                    <td className="px-4 py-4 text-gray-800">{item.name}</td>
+                                    <td className="px-4 py-4 text-gray-600">{item.email}</td>
+                                    <td className="px-4 py-4 text-gray-600">{item.mobile}</td>
+                                    <td className="px-4 py-4 text-gray-600">{item.profile}</td>
                                     <td className="px-4 py-4 text-gray-600">
-                                        {item.applid}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.date}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-800">
-                                        {item.name}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.email}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.mobile}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.profile}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-600">
-
                                         <button
                                             onClick={() => toggleSelect(item)}
                                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300
-  ${item.select ? "bg-blue-600" : "bg-gray-300"}`}
+            ${item.select ? "bg-blue-600" : "bg-gray-300"}`}
                                         >
                                             <span
                                                 className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300
-    ${item.select ? "translate-x-5" : "translate-x-1"}`}
+              ${item.select ? "translate-x-5" : "translate-x-1"}`}
                                             />
                                         </button>
-
                                     </td>
-
-
                                     <td className="px-4 py-4 text-center">
-
                                         {item.resume ? (
                                             <button
                                                 onClick={() => handleDownloadResume(item)}
@@ -373,34 +356,27 @@ export default function CarrerTable() {
                                         ) : (
                                             <span className="text-gray-400 text-sm">—</span>
                                         )}
-
                                     </td>
-
-
                                     <td className="px-3 py-4 flex gap-2">
-
                                         <Button
                                             onClick={() =>
-                                                navigate(`/careers/view/${item.id}`, {
-                                                    state: item, // ✅ send full row
-                                                })
+                                                navigate(`/careers/view/${item.id}`, { state: item })
                                             }
                                             size="sm"
                                             variant="view"
                                             startIcon={<IoIosEye size={20} />}
                                         />
-
                                         <Button
                                             onClick={() => setDeleteRow(item)}
                                             size="sm"
                                             variant="delete"
                                             startIcon={<MdDeleteOutline size={20} />}
                                         />
-
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
+
                     </table>
                 </div>
 

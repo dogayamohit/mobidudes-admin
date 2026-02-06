@@ -134,99 +134,112 @@ export default function EditService() {
     <>
       <PageBreadCrumb pageTitle="Edit Service" />
 
-      <ComponentCard title="Service Details">
-        <div className="flex gap-4">
-          {/* CATEGORY */}
-          <div className="mb-5 w-1/2">
-            <label className="block mb-1 font-medium">
-              Select Category
-            </label>
-            <select
-              value={formData.category_id} // default from state
-              onChange={(e) => handleChange("category_id", e.target.value)}
-              className="w-full border rounded px-3 py-2"
-            >
-              <option value="">Select Category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={String(cat.id)}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
+
+        <ComponentCard title="Service Details">
+          <div className="flex gap-4">
+            {/* CATEGORY */}
+            <div className="mb-5 w-1/2">
+              <label className="block mb-1 font-medium">
+                Select Category
+              </label>
+              <select
+                value={formData.category_id} // default from state
+                onChange={(e) => handleChange("category_id", e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              >
+                <option value="">Select Category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={String(cat.id)}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
 
 
+            </div>
+
+            {/* SHORT DESCRIPTION */}
+            <div className="mb-5 w-1/2">
+              <label className="block mb-1 font-medium">
+                Short Description
+              </label>
+              <input
+                type="text"
+                value={formData.short_description}
+                onChange={(e) =>
+                  handleChange(
+                    "short_description",
+                    e.target.value
+                  )
+                }
+                className="w-full border rounded px-3 py-2"
+              />
+            </div>
           </div>
 
-          {/* SHORT DESCRIPTION */}
-          <div className="mb-5 w-1/2">
+          {/* IMAGES */}
+          <div className="mb-6">
             <label className="block mb-1 font-medium">
-              Short Description
+              Service Images
             </label>
             <input
-              type="text"
-              value={formData.short_description}
-              onChange={(e) =>
-                handleChange(
-                  "short_description",
-                  e.target.value
-                )
-              }
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleImageChange}
               className="w-full border rounded px-3 py-2"
             />
-          </div>
-        </div>
 
-        {/* IMAGES */}
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">
-            Service Images
-          </label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full border rounded px-3 py-2"
-          />
+            <div className="flex gap-3 mt-4 flex-wrap">
+              {formData.existingImages.map((img, index) => (
+                <div key={index} className="relative w-32 h-24 border rounded">
+                  <img src={img.preview} className="w-full h-full object-cover rounded" />
+                  <button onClick={() => removeExistingImage(index)} className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1">
+                    <MdClose size={14} />
+                  </button>
+                </div>
+              ))}
 
-          <div className="flex gap-3 mt-4 flex-wrap">
-            {formData.existingImages.map((img, index) => (
-              <div key={index} className="relative w-32 h-24 border rounded">
-                <img src={img.preview} className="w-full h-full object-cover rounded" />
-                <button onClick={() => removeExistingImage(index)} className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1">
-                  <MdClose size={14} />
-                </button>
-              </div>
-            ))}
+              {formData.newImages.map((img, index) => (
+                <div key={index} className="relative w-32 h-24 border rounded">
+                  <img src={img.preview} className="w-full h-full object-cover rounded" />
+                  <button onClick={() => removeNewImage(index)} className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1">
+                    <MdClose size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
 
-            {formData.newImages.map((img, index) => (
-              <div key={index} className="relative w-32 h-24 border rounded">
-                <img src={img.preview} className="w-full h-full object-cover rounded" />
-                <button onClick={() => removeNewImage(index)} className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1">
-                  <MdClose size={14} />
-                </button>
-              </div>
-            ))}
+
           </div>
 
+          {/* DESCRIPTION */}
+          <div className="mb-5">
+            <label className="block mb-1 font-medium">
+              Description
+            </label>
+            <CKTextEditor
+              value={formData.description}
+              onChange={(data) =>
+                handleChange("description", data)
+              }
+            />
+          </div>
 
-        </div>
+          <Button onClick={handleSubmit}>Update Service</Button>
+        </ComponentCard>
 
-        {/* DESCRIPTION */}
-        <div className="mb-5">
-          <label className="block mb-1 font-medium">
-            Description
-          </label>
-          <CKTextEditor
-            value={formData.description}
-            onChange={(data) =>
-              handleChange("description", data)
-            }
-          />
-        </div>
-
-        <Button onClick={handleSubmit}>Update Service</Button>
-      </ComponentCard>
+      </div>
     </>
   );
 }

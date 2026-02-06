@@ -108,3 +108,15 @@ export const deletePortfolioCategory = async (id) => {
     throw new Error(error?.response?.data?.message || "Failed to delete category");
   }
 };
+
+
+/* ================= GET BLOG COUNT ================= */
+export const getPortfolioCount = async () => {
+  try {
+    const res = await api.get("/admin/portfolio/get");
+    return res.data.total; // only return total count
+  } catch (error) {
+    console.error("Error fetching blog count:", error);
+    throw error;
+  }
+};

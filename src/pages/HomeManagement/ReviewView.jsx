@@ -61,7 +61,15 @@ export default function ReviewView() {
         <>
             <PageBreadcrumb pageTitle="Review Detail" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
                 <Section title="Information">
                     <Grid>
                         {fields.map((field) => (

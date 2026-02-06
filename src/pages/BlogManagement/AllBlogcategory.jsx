@@ -34,7 +34,7 @@ const Blogcategory = () => {
 
         const mappedData = res.map((item, index) => ({
           id: item.id,
-          sno: index + 1,
+          // sno: index + 1,
           name: item.name,
         }));
 
@@ -87,9 +87,20 @@ const Blogcategory = () => {
     <div className="p-4">
       <PageBreadCrumb pageTitle="All Blogs Category" />
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
+
         {/* Search + Add */}
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+          {/* Rows per page select */}
           <select
             value={perPage}
             onChange={(e) => setPerPage(Number(e.target.value))}
@@ -98,15 +109,21 @@ const Blogcategory = () => {
             <option value={5}>5 rows</option>
             <option value={10}>10 rows</option>
           </select>
-          <div className="flex gap-3">
-            <div className="max-w-[300px] w-full">
+
+          {/* Search + Add button */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+
+            {/* Search input */}
+            <div className="w-full sm:max-w-[300px]">
               <Input
                 placeholder="Search..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                className="w-full"
               />
             </div>
 
+            {/* Add button */}
             <Button
               variant="primary"
               onClick={() => navigate("/blog-categories/add")}
@@ -119,6 +136,7 @@ const Blogcategory = () => {
 
         </div>
 
+
         {loading && (
           <div className="py-6 text-center text-gray-500 font-medium">
             Loading categories...
@@ -126,49 +144,48 @@ const Blogcategory = () => {
         )}
 
 
-        <table className="min-w-full text-sm border-t">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">S.No  </th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Category</th>
-              {/* <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Title</th> */}
-              <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {paginatedData.map((row) => (
-
-              <tr key={row.sno} className="border-b border-gray-200">
-                <td className="px-4 py-3">{row.sno}</td>
-                <td className="px-4 py-3">{row.name}</td>
-
-                <td className="px-4 py-3 flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="edit"
-                    onClick={() =>
-                      navigate(
-                        `/blog-categories/edit/${row.id}`,
-                        { state: row }   // 👈 PASS FULL ROW DATA
-                      )
-                    }
-                    startIcon={<CiEdit size={20} />}
-                  />
-
-
-                  {/* Delete */}
-                  <Button
-                    size="sm"
-                    variant="delete"
-                    onClick={() => setDeleteRow(row)}
-                    startIcon={<MdDeleteOutline size={20} />}
-                  />
-                </td>
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
+          <table className="min-w-full text-sm border-t">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">S.No  </th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Category</th>
+                {/* <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Title</th> */}
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {paginatedData.map((row, index) => (
+                <tr key={row.id} className="border-b border-gray-200">
+                  {/* Serial Number */}
+                  <td className="px-4 py-3">
+                    {(currentPage - 1) * perPage + index + 1}
+                  </td>
+
+                  <td className="px-4 py-3">{row.name}</td>
+
+                  <td className="px-4 py-3 flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="edit"
+                      onClick={() => navigate(`/blog-categories/edit/${row.id}`, { state: row })}
+                      startIcon={<CiEdit size={20} />}
+                    />
+
+                    <Button
+                      size="sm"
+                      variant="delete"
+                      onClick={() => setDeleteRow(row)}
+                      startIcon={<MdDeleteOutline size={20} />}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+
+          </table>
+        </div>
         {/* Pagination */}
         <div className="mt-6 flex items-center justify-end gap-2">
           <button

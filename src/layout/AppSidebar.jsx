@@ -110,11 +110,11 @@ export const sidebarConfig = [
 ];
 
 /* ================= SIDEBAR ITEM ================= */
-function SidebarItem({ item, pathname }) {
+function SidebarItem({ item, pathname, closeSidebar }) {
   const hasChildren = item.children?.length;
   const isActive = item.path === pathname;
   const Icon = item.icon;
-  const iconSize = item.size || 18; // fallback size
+  const iconSize = item.size || 18;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -123,7 +123,11 @@ function SidebarItem({ item, pathname }) {
     }
   }, [pathname, hasChildren, item.children]);
 
-  /* ---------- PARENT ITEM ---------- */
+  const handleClick = () => {
+    // Close sidebar only on mobile
+    if (window.innerWidth < 1024) closeSidebar();
+  };
+
   if (hasChildren) {
     return (
       <div className="space-y-1">
@@ -160,19 +164,15 @@ function SidebarItem({ item, pathname }) {
                 <li key={child.path}>
                   <Link
                     to={child.path}
+                    onClick={handleClick} // ✅ Close on mobile only
                     className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition
                       ${active
                         ? "bg-blue-50 text-blue-600 font-medium"
                         : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                       }`}
                   >
-                    {ChildIcon && (
-                      <ChildIcon size={childSize} className="flex-shrink-0" />
-                    )}
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full
-                        ${active ? "bg-blue-600" : "bg-gray-300"}`}
-                    />
+                    {ChildIcon && <ChildIcon size={childSize} className="flex-shrink-0" />}
+                    <span className={`h-1.5 w-1.5 rounded-full ${active ? "bg-blue-600" : "bg-gray-300"}`} />
                     {child.label}
                   </Link>
                 </li>
@@ -184,23 +184,19 @@ function SidebarItem({ item, pathname }) {
     );
   }
 
-  /* ---------- SINGLE ITEM ---------- */
   return (
     <Link
       to={item.path}
+      onClick={handleClick} // ✅ Close on mobile only
       className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition
         ${isActive
           ? "bg-blue-50 text-blue-600"
           : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
         }`}
     >
-      {isActive && (
-        <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-blue-600" />
-      )}
+      {isActive && <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-blue-600" />}
 
-      <span
-        className={`${ICON_WRAPPER} ${isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"}`}
-      >
+      <span className={`${ICON_WRAPPER} ${isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"}`}>
         <Icon size={iconSize} />
       </span>
 
@@ -209,8 +205,9 @@ function SidebarItem({ item, pathname }) {
   );
 }
 
+
 /* ================= SIDEBAR ================= */
-export default function AppSidebar({ sidebarOpen }) {
+export default function AppSidebar({ sidebarOpen, closeSidebar }) {
   const { pathname } = useLocation();
 
   return (
@@ -220,14 +217,14 @@ export default function AppSidebar({ sidebarOpen }) {
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       {/* Logo */}
-      <Link to="/">
-        <div className="flex h-22 items-center px-6 border-b">
+      <Link to="/" onClick={closeSidebar}>
+        <div className="flex h-22 items-center px-6 border-b z-20">
           <img src={Logo} alt="Logo" className="h-10 w-45" />
         </div>
       </Link>
 
       {/* Menu */}
-      <nav className="h-[90vh] overflow-y-auto px-3 py-6 space-y-8 scrollbar-hide">
+      <nav className="h-[80vh] overflow-y-auto px-3 py-6 space-y-8 scrollbar-hide">
         {sidebarConfig.map(section => (
           <div key={section.section}>
             <p className="mb-3 px-3 text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
@@ -236,7 +233,12 @@ export default function AppSidebar({ sidebarOpen }) {
 
             <div className="space-y-1">
               {section.items.map(item => (
-                <SidebarItem key={item.label} item={item} pathname={pathname} />
+                <SidebarItem 
+                  key={item.label} 
+                  item={item} 
+                  pathname={pathname} 
+                  closeSidebar={closeSidebar} 
+                />
               ))}
             </div>
           </div>
@@ -245,3 +247,4 @@ export default function AppSidebar({ sidebarOpen }) {
     </aside>
   );
 }
+

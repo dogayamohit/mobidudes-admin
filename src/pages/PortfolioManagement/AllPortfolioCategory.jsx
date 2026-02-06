@@ -84,31 +84,40 @@ export default function AllPortfoliocategory() {
 
       <PageBreadCrumb pageTitle="All Portfolio Categories" />
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
         {/* Search + Add */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="max-w-[300px] w-full">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
+          {/* Search input */}
+          <div className="w-full sm:max-w-[300px]">
             <Input
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              className="w-full"
             />
-
           </div>
 
+          {/* Add button */}
           <Button
             variant="primary"
-            onClick={() =>
-              navigate("/portfolio-categories/add")
-            }
+            onClick={() => navigate("/portfolio-categories/add")}
             startIcon={<AiOutlinePlus />}
           >
             Add
           </Button>
 
         </div>
+
 
         {/* Table */}
         <div className="overflow-x-auto rounded-xl border border-gray-200">
@@ -137,9 +146,9 @@ export default function AllPortfoliocategory() {
                   </td>
                 </tr>
               ) : (
-                filteredData.map((row) => (
+                filteredData.map((row, index) => (
                   <tr key={row.id} className="border-b border-gray-200">
-                    <td className="px-4 py-3">{row.sno}</td>
+                    <td className="px-4 py-3">{index + 1}</td>   {/* dynamic S.No */}
                     <td className="px-4 py-3">{row.name}</td>
                     <td className="px-4 py-3 flex gap-2">
 

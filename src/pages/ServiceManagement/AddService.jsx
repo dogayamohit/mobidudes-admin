@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function AddService() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     category_id: "",
@@ -85,81 +85,93 @@ export default function AddService() {
     <>
       <PageBreadCrumb pageTitle="Add Service" />
 
-      <ComponentCard title="Service Details">
-        {/* CATEGORY */}
-        <div className="mb-5 w-1/2">
-          <label className="block mb-1 font-medium">Select Category</label>
-          <select
-            value={formData.category_id}
-            onChange={(e) => handleChange("category_id", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
-        {/* SHORT DESCRIPTION */}
-        <div className="mb-5">
-          <label className="block mb-1 font-medium">Short Description</label>
-          <input
-            type="text"
-            value={formData.short_description}
-            onChange={(e) => handleChange("short_description", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-            placeholder="Enter short description"
-          />
-        </div>
-
-        {/* IMAGE UPLOAD */}
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">Service Images</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full border rounded px-3 py-2"
-          />
-
-          {formData.newImages.length > 0 && (
-            <div className="flex gap-3 mt-4 flex-wrap">
-              {formData.newImages.map((img, index) => (
-                <div key={index} className="relative w-32 h-24 border rounded">
-                  <img
-                    src={img.preview}
-                    alt="preview"
-                    className="w-full h-full object-cover rounded"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeNewImage(index)}
-                    className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1"
-                  >
-                    <MdClose size={14} />
-                  </button>
-                </div>
+        <ComponentCard title="Service Details">
+          {/* CATEGORY */}
+          <div className="mb-5 w-1/2">
+            <label className="block mb-1 font-medium">Select Category</label>
+            <select
+              value={formData.category_id}
+              onChange={(e) => handleChange("category_id", e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
               ))}
-            </div>
-          )}
-        </div>
+            </select>
+          </div>
 
-        {/* CKEDITOR */}
-        <div className="mb-5">
-          <label className="block mb-1 font-medium">Description</label>
-          <CKTextEditor
-            data={formData.description} // HTML content
-            onChange={(data) => handleChange("description", data)}
-          />
-        </div>
+          {/* SHORT DESCRIPTION */}
+          <div className="mb-5">
+            <label className="block mb-1 font-medium">Short Description</label>
+            <input
+              type="text"
+              value={formData.short_description}
+              onChange={(e) => handleChange("short_description", e.target.value)}
+              className="w-full border rounded px-3 py-2"
+              placeholder="Enter short description"
+            />
+          </div>
 
-        {/* SUBMIT */}
-        <Button onClick={handleSubmit}>Save Service</Button>
-      </ComponentCard>
+          {/* IMAGE UPLOAD */}
+          <div className="mb-6">
+            <label className="block mb-1 font-medium">Service Images</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full border rounded px-3 py-2"
+            />
+
+            {formData.newImages.length > 0 && (
+              <div className="flex gap-3 mt-4 flex-wrap">
+                {formData.newImages.map((img, index) => (
+                  <div key={index} className="relative w-32 h-24 border rounded">
+                    <img
+                      src={img.preview}
+                      alt="preview"
+                      className="w-full h-full object-cover rounded"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeNewImage(index)}
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1"
+                    >
+                      <MdClose size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* CKEDITOR */}
+          <div className="mb-5">
+            <label className="block mb-1 font-medium">Description</label>
+            <CKTextEditor
+              data={formData.description} // HTML content
+              onChange={(data) => handleChange("description", data)}
+            />
+          </div>
+
+          {/* SUBMIT */}
+          <Button onClick={handleSubmit}>Save Service</Button>
+        </ComponentCard>
+
+      </div>
     </>
   );
 }

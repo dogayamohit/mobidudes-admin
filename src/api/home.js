@@ -35,6 +35,36 @@ export const deleteReview = async (id) => {
 };
 
 
+export const addReview = async (data) => {
+  try {
+    const response = await api.post("/admin/review/add", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error;
+  }
+};
+
+// Update Review By ID
+export const updateReview = async (id, data) => {
+  try {
+    const response = await api.post(`/admin/review/update/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating review:", error);
+    throw error;
+  }
+};
+
+
 // -----------------------------------------------------------
 
 

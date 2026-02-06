@@ -19,7 +19,7 @@ const ServiceCategoryTable = () => {
     const [perPage, setPerPage] = useState(5);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
     const [data, setData] = useState([]);
-    
+
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -28,7 +28,7 @@ const ServiceCategoryTable = () => {
 
                 const mapped = res.map((item, index) => ({
                     id: item.id,
-                    sno: index + 1,
+                    // sno: index + 1,
                     name: item.name,
                     icon: item.icon?.length ? getIconUrl(item.icon) : null,
                 }));
@@ -88,9 +88,19 @@ const ServiceCategoryTable = () => {
 
             <PageBreadCrumb pageTitle="All Service Categories" />
 
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
                 {/* Search + Add */}
-                <div className="mb-4 flex items-center justify-between">
+                <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+
+                    {/* Rows per page select */}
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
@@ -99,8 +109,11 @@ const ServiceCategoryTable = () => {
                         <option value={5}>5 rows</option>
                         <option value={10}>10 rows</option>
                     </select>
-                    <div className="flex gap-3">
-                        <div className="max-w-[300px] w-full">
+
+                    {/* Search + Add button */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                        {/* Search input */}
+                        <div className="w-full sm:max-w-[200px]">
                             <Input
                                 placeholder="Search..."
                                 value={search}
@@ -108,6 +121,7 @@ const ServiceCategoryTable = () => {
                             />
                         </div>
 
+                        {/* Add button */}
                         <Button
                             variant="primary"
                             onClick={() => navigate("/service-categories/add")}
@@ -116,66 +130,61 @@ const ServiceCategoryTable = () => {
                             Add
                         </Button>
                     </div>
-
                 </div>
 
-                <table className="min-w-full text-sm border-t">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">S.No</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Name</th>
-                            {/* <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Title</th> */}
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Icon</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {filteredData.map((row) => (
-                            <tr key={row.id} className="border-b border-gray-200">
-                                <td className="px-4 py-3">{row.sno}</td>
-                                <td className="px-4 py-3">{row.name}</td>
-                                <td className="px-4 py-3">
-                                    {row.icon ? (
-                                        <img
-                                            src={row.icon}
-                                            alt={row.name}
-                                            className="w-12 h-12 object-cover rounded"
-                                        />
-                                    ) : (
-                                        "—"
-                                    )}
-                                </td>
-
-                                {/* <td className="px-4 py-3 max-w-[300px]">{row.blogDescription}</td> */}
-                                <td className="px-4 py-3 flex gap-2">
-                                    <Button
-                                        size="sm"
-                                        variant="edit"
-                                        onClick={() =>
-                                            navigate(`/service-categories/edit/${row.id}`, {
-                                                state: {
-                                                    title: row.name,
-                                                    icon: row.icon,
-                                                },
-                                            })
-                                        }
-                                        startIcon={<CiEdit size={20} />}
-                                    />
 
 
-
-                                    {/* Delete */}
-                                    <Button
-                                        size="sm"
-                                        variant="delete"
-                                        onClick={() => setDeleteRow(row)}
-                                        startIcon={<MdDeleteOutline size={20} />}
-                                    />
-                                </td>
+                <div className="overflow-x-auto rounded-xl border border-gray-200">
+                    <table className="min-w-full text-sm border-t">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">S.No</th>
+                                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Name</th>
+                                {/* <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Title</th> */}
+                                <th className="px-4 py-3 text-left font-semibold text-gray-600 cursor-pointer">Icon</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {paginatedData.map((row, index) => (
+                                <tr key={row.id} className="border-b border-gray-200">
+                                    {/* Serial Number */}
+                                    <td className="px-4 py-3">{(currentPage - 1) * perPage + index + 1}</td>
+
+                                    <td className="px-4 py-3">{row.name}</td>
+                                    <td className="px-4 py-3">
+                                        {row.icon ? (
+                                            <img src={row.icon} alt={row.name} className="w-12 h-12 object-cover rounded" />
+                                        ) : (
+                                            "—"
+                                        )}
+                                    </td>
+
+                                    <td className="px-4 py-3 flex gap-2">
+                                        <Button
+                                            size="sm"
+                                            variant="edit"
+                                            onClick={() =>
+                                                navigate(`/service-categories/edit/${row.id}`, {
+                                                    state: { title: row.name, icon: row.icon },
+                                                })
+                                            }
+                                            startIcon={<CiEdit size={20} />}
+                                        />
+                                        <Button
+                                            size="sm"
+                                            variant="delete"
+                                            onClick={() => setDeleteRow(row)}
+                                            startIcon={<MdDeleteOutline size={20} />}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+
+                    </table>
+                </div>
+
                 {/* Pagination */}
                 <div className="mt-6 flex items-center justify-end gap-2">
                     <button

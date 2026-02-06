@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getBlogCount } from "../../api/blog";
 import { getServiceCount } from "../../api/service";
 import { getCareerCount, getVacancyOpenRoleCount } from "../../api/career";
+import { getPortfolioCount } from "../../api/portfolio";
 
 const metrics = [
     {
@@ -135,6 +136,7 @@ export default function DashboardMetrics() {
         career: 0,
         vacancy: 0,
         services: 0,
+        portflio: 0,
     });
 
     useEffect(() => {
@@ -145,11 +147,13 @@ export default function DashboardMetrics() {
                     serviceTotal,
                     vacancyTotal,
                     careerTotal,
+                    portfolioTotal,
                 ] = await Promise.all([
                     getBlogCount(),
                     getServiceCount(),
                     getVacancyOpenRoleCount(),
                     getCareerCount(),
+                    getPortfolioCount(),
                 ]);
 
                 setCounts((prev) => ({
@@ -158,6 +162,7 @@ export default function DashboardMetrics() {
                     services: serviceTotal,
                     vacancy: vacancyTotal,
                     career: careerTotal,
+                    portfolio: portfolioTotal,
                 }));
             } catch (error) {
                 console.error(error);

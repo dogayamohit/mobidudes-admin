@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 function PageBreadCrumb({ pageTitle }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+    <div className="flex flex-wrap items-center justify-between gap-3 mb-6 p-2">
       {/* Page Title */}
       <h2 className="text-xl font-semibold text-gray-800">
         {pageTitle}

@@ -49,7 +49,7 @@ export default function ContactTable() {
             const res = await getContacts();
 
             const formatted = res.map((item, index) => ({
-                sno: index + 1,
+                // sno: index + 1,
                 id: item.id,
                 date: new Date(item.createdAt).toISOString().split("T")[0],
                 name: item.name,
@@ -127,49 +127,55 @@ export default function ContactTable() {
         <>
             <PageBreadcrumb pageTitle="Contacts" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-3">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
                 <h3 className="mb-4 text-lg font-semibold">Users</h3>
 
                 {/* Controls */}
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex gap-2">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-wrap">
 
-                        <div className="relative inline-block w-40">
-                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
-                                <svg
-                                    className="h-4 w-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M19 9l-7 7-7-7"
-                                    />
-                                </svg>
-                            </div>
-
-                            <select
-                                value={perPage}
-                                onChange={(e) => setPerPage(Number(e.target.value))}
-                                className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2.5 pr-10 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 focus:outline-none"
+                    {/* Rows per page select */}
+                    <div className="relative inline-block w-full sm:w-40">
+                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
+                            <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
                             >
-                                <option value={10}>10 rows</option>
-                                <option value={8}>8 rows</option>
-                                <option value={5}>5 rows</option>
-                            </select>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
                         </div>
+
+                        <select
+                            value={perPage}
+                            onChange={(e) => setPerPage(Number(e.target.value))}
+                            className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2.5 pr-10 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 focus:outline-none"
+                        >
+                            <option value={10}>10 rows</option>
+                            <option value={8}>8 rows</option>
+                            <option value={5}>5 rows</option>
+                        </select>
                     </div>
 
+                    {/* Search input */}
                     <Input
-                        className="h-10 rounded border px-3 min-w-[300px]"
+                        className="h-10 rounded border px-3 w-full sm:min-w-[300px]"
                         placeholder="Search..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
+
                 </div>
+
 
                 {/* Table */}
                 <div className="relative overflow-x-auto rounded-xl border border-gray-200">
@@ -206,44 +212,21 @@ export default function ContactTable() {
 
                         <tbody className="divide-y divide-gray-100">
                             {paginatedData.map((item, index) => (
-                                <tr
-                                    key={item.sno}
-                                    className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"
-                                        }`}>
+                                <tr key={item.id} className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}>
                                     <td className="px-4 py-4 font-medium text-gray-800">
-                                        {item.sno}
+                                        {(currentPage - 1) * perPage + index + 1} {/* dynamic S.No */}
                                     </td>
 
-                                    <td className="px-3 py-4 text-gray-800 whitespace-nowrap">
-                                        {item.date}
-                                    </td>
-                                    <td className="px-3 py-4 text-gray-800 whitespace-nowrap">
-                                        {item.name}
-                                    </td>
-                                    <td className="px-3 py-4 text-gray-800">
-                                        {item.email}
-                                    </td>
-                                    <td className="px-3 py-4 text-gray-800">
-                                        {item.mobile}
-                                    </td>
-                                    <td className="px-3 py-4 text-gray-800">
-                                        {item.service}
-                                    </td>
-                                    <td className="px-3 py-4 text-gray-800">
-                                        {item.budget}
-                                    </td>
-
-                                    <td className="px-3 py-4 text-gray-600 max-w-[250px]">
-                                        {item.description}
-                                    </td>
+                                    <td className="px-3 py-4 text-gray-800 whitespace-nowrap">{item.date}</td>
+                                    <td className="px-3 py-4 text-gray-800 whitespace-nowrap">{item.name}</td>
+                                    <td className="px-3 py-4 text-gray-800">{item.email}</td>
+                                    <td className="px-3 py-4 text-gray-800">{item.mobile}</td>
+                                    <td className="px-3 py-4 text-gray-800">{item.service}</td>
+                                    <td className="px-3 py-4 text-gray-800">{item.budget}</td>
+                                    <td className="px-3 py-4 text-gray-600 max-w-[250px]">{item.description}</td>
                                     <td className="px-4 py-4">
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="h-10 w-10 rounded-full object-cover"
-                                        />
+                                        <img src={item.image} alt={item.name} className="h-10 w-10 rounded-full object-cover" />
                                     </td>
-
                                     <td className="px-2 py-4 flex gap-1">
                                         <Button
                                             onClick={() => navigate(`/contacts/view/${item.id}`)}
@@ -251,24 +234,17 @@ export default function ContactTable() {
                                             variant="view"
                                             startIcon={<IoIosEye size={20} />}
                                         />
-
-                                        {/* <Button
-                                                onClick={() => navigate(`/users/edit/${item.id}`)}
-                                                size="sm"
-                                                variant="edit"
-                                                startIcon={<CiEdit size={20} className="size-5" />}
-                                            /> */}
-
                                         <Button
                                             onClick={() => setDeleteRow(item)}
                                             size="sm"
                                             variant="delete"
-                                            startIcon={<MdDeleteOutline size={20} className="size-5" />}
+                                            startIcon={<MdDeleteOutline size={20} />}
                                         />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
+
                     </table>
                 </div>
 

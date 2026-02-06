@@ -42,22 +42,35 @@ export default function AddCategory() {
     <>
       <PageBreadCrumb pageTitle="Add Blog Category" />
 
-      <ComponentCard title="Blog Category">
-        <div className="mb-5">
-          <label className="block mb-1 font-medium">Add Blog Category</label>
-          <input
-            type="text"
-            placeholder="Enter Category"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-          />
-        </div>
 
-        <Button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Saving..." : "Save Category"}
-        </Button>
-      </ComponentCard>
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
+
+        <ComponentCard title="Blog Category">
+          <div className="mb-5">
+            <label className="block mb-1 font-medium">Add Blog Category</label>
+            <input
+              type="text"
+              placeholder="Enter Category"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <Button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Saving..." : "Save Category"}
+          </Button>
+        </ComponentCard>
+
+      </div>
     </>
   );
 }

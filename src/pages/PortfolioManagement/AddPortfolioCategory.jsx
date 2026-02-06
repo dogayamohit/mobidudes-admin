@@ -39,32 +39,44 @@ export default function AddPortfolioCategory() {
 
     }
   };
-  
+
 
   return (
     <>
 
       <PageBreadCrumb pageTitle="Add Category" />
 
-      <ComponentCard title="Category Details">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
-        <div className="mb-5">
+        <ComponentCard title="Category Details">
 
-          <label className="block mb-1 font-medium">Category Name</label>
-          <input
-            type="text"
-            placeholder="Enter Category"
-            value={formData.category}
-            onChange={(e) => handleChange("category", e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-          />
+          <div className="mb-5">
 
-        </div>
+            <label className="block mb-1 font-medium">Category Name</label>
+            <input
+              type="text"
+              placeholder="Enter Category"
+              value={formData.category}
+              onChange={(e) => handleChange("category", e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
 
-        <Button onClick={handleSubmit}>Save</Button>
+          </div>
 
-      </ComponentCard>
+          <Button onClick={handleSubmit}>Save</Button>
 
+        </ComponentCard>
+
+
+      </div>
     </>
   );
 }

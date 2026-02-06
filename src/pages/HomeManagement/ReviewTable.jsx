@@ -9,6 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { getReviews, deleteReview } from "../../api/home";
 import { toast } from "react-toastify";
 import { AiOutlinePlus } from "react-icons/ai";
+import { CiEdit } from "react-icons/ci";
 
 export default function ReviewTable() {
 
@@ -33,7 +34,7 @@ export default function ReviewTable() {
 
                 const mapped = reviews.map((r, index) => ({
 
-                    sno: index + 1,
+                    // sno: index + 1,
                     id: r.id,
                     name: r.name,
                     designation: r.designation,
@@ -65,7 +66,7 @@ export default function ReviewTable() {
 
     // ---------------- FILTER ----------------
     const filteredData = useMemo(() => {
-        
+
         return data.filter(
             (item) =>
                 item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -147,28 +148,37 @@ export default function ReviewTable() {
         <>
             <PageBreadcrumb pageTitle="Reviews" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
 
                 {/* Controls */}
-                <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
+                    {/* Rows per page select */}
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
-                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        className="w-full sm:w-auto rounded-lg border border-gray-200 px-3 py-2 text-sm"
                     >
                         <option value={5}>5 rows</option>
                         <option value={10}>10 rows</option>
                     </select>
 
-                    <div className="flex gap-3">
-                        <div className="max-w-[300px] w-full">
-                            <Input
-                                placeholder="Search..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                        </div>
+                    {/* Search + Add button */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                        <Input
+                            placeholder="Search..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full sm:max-w-[300px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        />
 
                         <Button
                             variant="primary"
@@ -180,6 +190,7 @@ export default function ReviewTable() {
                     </div>
 
                 </div>
+
 
                 {/* Table */}
                 {loading ? (
@@ -215,7 +226,7 @@ export default function ReviewTable() {
                                                     {sortConfig.direction === "asc" ? " ▲" : " ▼"}
                                                 </span>
                                             )}
-                                            
+
                                         </th>
                                     ))}
                                 </tr>
@@ -223,14 +234,15 @@ export default function ReviewTable() {
                             </thead>
 
                             <tbody className="divide-y divide-gray-100">
-
                                 {paginatedData.map((item, index) => (
                                     <tr
                                         key={item.id}
-                                        className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"
-                                            }`}
+                                        className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
                                     >
-                                        <td className="px-4 py-4 font-medium text-gray-800">{item.sno}</td>
+                                        {/* Dynamic S.No */}
+                                        <td className="px-4 py-4 font-medium text-gray-800">
+                                            {(currentPage - 1) * perPage + index + 1}
+                                        </td>
 
                                         <td className="px-4 py-4">
                                             <img
@@ -241,38 +253,38 @@ export default function ReviewTable() {
                                         </td>
 
                                         <td className="px-4 py-4 text-gray-800">{item.name}</td>
-
                                         <td className="px-4 py-4 text-yellow-500">
                                             {"★".repeat(item.star)}
                                             {"☆".repeat(5 - item.star)}
                                         </td>
-
                                         <td className="px-4 py-4 text-gray-600 max-w-xs">
                                             <p className="line-clamp-2">{item.comment}</p>
                                         </td>
-
                                         <td className="px-4 py-4 text-gray-600">{item.designation}</td>
-
                                         <td className="px-3 py-4 flex gap-2">
-
                                             <Button
                                                 onClick={() => navigate(`/reviews/view/${item.id}`)}
                                                 size="sm"
                                                 variant="view"
                                                 startIcon={<IoIosEye size={20} />}
                                             />
-
+                                            <Button
+                                                size="sm"
+                                                variant="edit"
+                                                onClick={() => navigate(`/reviews/update/${item.id}`)}
+                                                startIcon={<CiEdit size={18} />}
+                                            />
                                             <Button
                                                 onClick={() => setDeleteRow(item)}
                                                 size="sm"
                                                 variant="delete"
                                                 startIcon={<MdDeleteOutline size={20} />}
                                             />
-
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
+
 
                         </table>
 

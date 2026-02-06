@@ -136,164 +136,174 @@ export default function AddPortfolio() {
 
       <PageBreadCrumb pageTitle="Add Portfolio" />
 
-      <ComponentCard title="Portfolio Details">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
+        <ComponentCard title="Portfolio Details">
 
-        <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-4">
 
-          {/* Title */}
-          <div className="col-span-6">
-
-            <label className="block mb-1 font-medium">Title</label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={(e) => handleChange("title", e.target.value)}
-              className="w-full border rounded px-3 py-2"
-            />
-
-          </div>
-
-
-          {/* Category */}
-          <div className="col-span-6">
-
-            <label className="block mb-1 font-medium">Category</label>
-            <select
-              value={formData.category_id}
-              onChange={(e) => handleChange("category_id", e.target.value)}
-              className="w-full border rounded px-3 py-2"
-            >
-              <option value="">Select Category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-
-          </div>
-
-
-          {/* Website URL */}
-          {!isMobileApp && (
+            {/* Title */}
             <div className="col-span-6">
 
-              <label className="block mb-1 font-medium">Website URL</label>
+              <label className="block mb-1 font-medium">Title</label>
               <input
                 type="text"
-                value={formData.website_url}
-                onChange={(e) => handleChange("website_url", e.target.value)}
+                value={formData.title}
+                onChange={(e) => handleChange("title", e.target.value)}
                 className="w-full border rounded px-3 py-2"
               />
 
             </div>
-          )}
 
 
-          {/* Android URL */}
-          {isMobileApp && (
-            <div className="col-span-6">
-              <label className="block mb-1 font-medium">Android URL</label>
-              <input
-                type="text"
-                value={formData.android_url}
-                onChange={(e) => handleChange("android_url", e.target.value)}
-                className="w-full border rounded px-3 py-2"
-              />
-            </div>
-          )}
-
-
-          {/* IOS URL */}
-          {isMobileApp && (
+            {/* Category */}
             <div className="col-span-6">
 
-              <label className="block mb-1 font-medium">IOS URL</label>
-              <input
-                type="text"
-                value={formData.ios_url}
-                onChange={(e) => handleChange("ios_url", e.target.value)}
+              <label className="block mb-1 font-medium">Category</label>
+              <select
+                value={formData.category_id}
+                onChange={(e) => handleChange("category_id", e.target.value)}
                 className="w-full border rounded px-3 py-2"
-              />
+              >
+                <option value="">Select Category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
 
             </div>
-          )}
-
-          {/* Technologies */}
-          <div className="col-span-6">
-
-            <label className="block mb-1 font-medium">Technologies</label>
-            <input
-              type="text"
-              value={formData.technologies}
-              onChange={(e) => handleChange("technologies", e.target.value)}
-              className="w-full border rounded px-3 py-2"
-            />
-
-          </div>
-
-        </div>
 
 
-        {/* Image */}
-        <div className="mt-5">
+            {/* Website URL */}
+            {!isMobileApp && (
+              <div className="col-span-6">
 
-          <label className="block mb-1 font-medium">Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-          />
-
-
-
-
-          <div className="flex gap-3 mt-3 flex-wrap">
-            {preview.map((img, index) => (
-              <div key={index} className="relative">
-                <img
-                  src={img}
-                  className="w-40 h-28 object-cover rounded border"
+                <label className="block mb-1 font-medium">Website URL</label>
+                <input
+                  type="text"
+                  value={formData.website_url}
+                  onChange={(e) => handleChange("website_url", e.target.value)}
+                  className="w-full border rounded px-3 py-2"
                 />
 
-                {/* Delete button */}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(index)}
-                  className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
-                >
-                  ✕
-                </button>
               </div>
-            ))}
+            )}
+
+
+            {/* Android URL */}
+            {isMobileApp && (
+              <div className="col-span-6">
+                <label className="block mb-1 font-medium">Android URL</label>
+                <input
+                  type="text"
+                  value={formData.android_url}
+                  onChange={(e) => handleChange("android_url", e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                />
+              </div>
+            )}
+
+
+            {/* IOS URL */}
+            {isMobileApp && (
+              <div className="col-span-6">
+
+                <label className="block mb-1 font-medium">IOS URL</label>
+                <input
+                  type="text"
+                  value={formData.ios_url}
+                  onChange={(e) => handleChange("ios_url", e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                />
+
+              </div>
+            )}
+
+            {/* Technologies */}
+            <div className="col-span-6">
+
+              <label className="block mb-1 font-medium">Technologies</label>
+              <input
+                type="text"
+                value={formData.technologies}
+                onChange={(e) => handleChange("technologies", e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              />
+
+            </div>
+
           </div>
 
 
-        </div>
+          {/* Image */}
+          <div className="mt-5">
+
+            <label className="block mb-1 font-medium">Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+            />
 
 
-        {/* Description */}
-        <div className="mt-5">
 
-          <label className="block mb-1 font-medium">Description</label>
-          <textarea
-            rows={4}
-            value={formData.description}
-            onChange={(e) => handleChange("description", e.target.value)}
-            className="w-full border rounded p-3"
-          />
 
-        </div>
+            <div className="flex gap-3 mt-3 flex-wrap">
+              {preview.map((img, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={img}
+                    className="w-40 h-28 object-cover rounded border"
+                  />
 
-        {/* Save */}
-        <div className="mt-6">
+                  {/* Delete button */}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
 
-          <Button onClick={handleSubmit}>Save</Button>
 
-        </div>
+          </div>
 
-      </ComponentCard>
+
+          {/* Description */}
+          <div className="mt-5">
+
+            <label className="block mb-1 font-medium">Description</label>
+            <textarea
+              rows={4}
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
+              className="w-full border rounded p-3"
+            />
+
+          </div>
+
+          {/* Save */}
+          <div className="mt-6">
+
+            <Button onClick={handleSubmit}>Save</Button>
+
+          </div>
+
+        </ComponentCard>
+      </div>
 
     </>
   );

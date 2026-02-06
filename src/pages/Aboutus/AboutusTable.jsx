@@ -16,9 +16,9 @@ const icons = {
 };
 
 const stripHtml = (html = "") => {
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  return div.textContent || div.innerText || "";
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
 };
 
 
@@ -45,9 +45,9 @@ export default function AboutusTable() {
 
                     return {
                         id: item.id,
-                        sno: index + 1,
+                        // sno: index + 1,
                         title: item.title,
-                         description: stripHtml(item.description),
+                        description: stripHtml(item.description),
                         client: item.clients,
                         initiatives: item.initiatives,
                         trophies: item.trophies,
@@ -75,7 +75,7 @@ export default function AboutusTable() {
     const filteredData = useMemo(() => {
         return data.filter(
             (item) =>
-                item.sno.toString().includes(search) ||
+                // item.sno.toString().includes(search) ||
                 item.title.toLowerCase().includes(search.toLowerCase()) ||
                 item.description.toLowerCase().includes(search.toLowerCase()) ||
                 item.client.toLowerCase().includes(search.toLowerCase()) ||
@@ -133,30 +133,41 @@ export default function AboutusTable() {
         <>
             <PageBreadcrumb pageTitle="About Us" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
 
                 {/* Controls */}
-                <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+                    {/* Rows per page select */}
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
-                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm w-full sm:w-auto"
                     >
                         <option value={5}>5 rows</option>
                         <option value={10}>10 rows</option>
                     </select>
 
-                    <div className="flex items-center gap-3">
+                    {/* Search input */}
+                    <div className="w-full sm:max-w-[260px]">
                         <Input
                             placeholder="Search..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="min-w-[260px]"
+                            className="w-full"
                         />
-
-
                     </div>
+
                 </div>
+
 
                 {/* Table */}
                 <div className="overflow-x-auto rounded-xl border border-gray-200">
@@ -196,10 +207,13 @@ export default function AboutusTable() {
                         <tbody className="border border-gray-200">
                             {paginatedData.map((item, index) => (
                                 <tr
-                                    key={item.sno}
+                                    key={item.id}
                                     className={index % 2 === 0 ? "bg-white border border-gray-200" : "bg-gray-50/40 border border-gray-200"}
                                 >
-                                    <td className="px-4 py-4 font-medium">{item.sno}</td>
+                                    {/* Dynamic S.No */}
+                                    <td className="px-4 py-4 font-medium">
+                                        {(currentPage - 1) * perPage + index + 1}
+                                    </td>
 
                                     <td className="px-4 py-4">
                                         <img
@@ -210,31 +224,24 @@ export default function AboutusTable() {
                                     </td>
 
                                     <td className="px-4 py-4">{item.title}</td>
-
                                     <td className="px-4 py-4 max-w-[300px]">{item.description}</td>
-
                                     <td className="px-4 py-4">{item.client}</td>
-
                                     <td className="px-4 py-4">{item.initiatives}</td>
-
                                     <td className="px-4 py-4">{item.trophies}</td>
-                                    {/* Actions */}
-                                    <td className="px-4 py-4 ">
+                                    <td className="px-4 py-4">
                                         <Button
                                             size="sm"
                                             variant="edit"
                                             startIcon={<CiEdit size={18} />}
                                             onClick={() =>
-                                                navigate(`/about-us/edit/${item.id}`, {
-                                                    state: item, 
-                                                })
+                                                navigate(`/about-us/edit/${item.id}`, { state: item })
                                             }
                                         />
-
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
+
                     </table>
                 </div>
 

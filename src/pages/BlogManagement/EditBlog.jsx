@@ -157,108 +157,120 @@ export default function EditBlog() {
   return (
     <>
       <PageBreadCrumb pageTitle="Edit Blog" />
-      
-      <ComponentCard title="Blog Details">
 
-        {/* Category */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Category</label>
-          <select
-            value={formData.category_id}
-            onChange={(e) => handleChange("category_id", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
-            ))}
-          </select>
-        </div>
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
-        {/* Title */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Title</label>
-          <input
-            value={formData.title}
-            onChange={(e) => handleChange("title", e.target.value)}
-            className="border w-full px-3 py-2 rounded"
-          />
-        </div>
+        <ComponentCard title="Blog Details">
 
-        {/* Old Images */}
-        {formData.oldImages.length > 0 && (
+          {/* Category */}
           <div className="mb-4">
-            <label className="block mb-2 font-medium">Existing Images</label>
-            <div className="flex gap-3 flex-wrap">
-              {formData.oldImages.map((img, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={`${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${img}`}
-                    alt={img.split("/").pop()}
-                    className="w-32 h-24 object-cover rounded border"
-                  />
-                  <button
-                    type="button"
-                    disabled={deletingImage === img}
-                    onClick={() => removeOldImage(img)}
-                    className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 disabled:opacity-50"
-                  >
-                    ×
-                  </button>
-                </div>
+            <label className="block mb-1 font-medium">Category</label>
+            <select
+              value={formData.category_id}
+              onChange={(e) => handleChange("category_id", e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
-            </div>
+            </select>
           </div>
-        )}
 
-        {/* New Images */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Add New Images</label>
-          <input
-            type="file"
-            multiple
-            onChange={handleImageChange}
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-
-        {formData.newImages.length > 0 && (
+          {/* Title */}
           <div className="mb-4">
-            <label className="block mb-2 font-medium">New Images Preview</label>
-            <div className="flex gap-3 flex-wrap">
-              {formData.newImages.map((img, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={img.preview}
-                    alt="preview"
-                    className="w-32 h-24 object-cover rounded border"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeNewImage(index)}
-                    className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
+            <label className="block mb-1 font-medium">Title</label>
+            <input
+              value={formData.title}
+              onChange={(e) => handleChange("title", e.target.value)}
+              className="border w-full px-3 py-2 rounded"
+            />
           </div>
-        )}
 
-        {/* Description */}
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">Description</label>
-          <CKTextEditor
-            value={formData.description}
-            onChange={(data) => handleChange("description", data)}
-          />
-        </div>
+          {/* Old Images */}
+          {formData.oldImages.length > 0 && (
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">Existing Images</label>
+              <div className="flex gap-3 flex-wrap">
+                {formData.oldImages.map((img, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={`${import.meta.env.VITE_API_BASE_URL_FOR_IMAGES}/${img}`}
+                      alt={img.split("/").pop()}
+                      className="w-32 h-24 object-cover rounded border"
+                    />
+                    <button
+                      type="button"
+                      disabled={deletingImage === img}
+                      onClick={() => removeOldImage(img)}
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 disabled:opacity-50"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-        <Button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Updating..." : "Update Blog"}
-        </Button>
-      </ComponentCard>
+          {/* New Images */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Add New Images</label>
+            <input
+              type="file"
+              multiple
+              onChange={handleImageChange}
+              className="w-full border px-3 py-2 rounded"
+            />
+          </div>
+
+          {formData.newImages.length > 0 && (
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">New Images Preview</label>
+              <div className="flex gap-3 flex-wrap">
+                {formData.newImages.map((img, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={img.preview}
+                      alt="preview"
+                      className="w-32 h-24 object-cover rounded border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeNewImage(index)}
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Description */}
+          <div className="mb-6">
+            <label className="block mb-1 font-medium">Description</label>
+            <CKTextEditor
+              value={formData.description}
+              onChange={(data) => handleChange("description", data)}
+            />
+          </div>
+
+          <Button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Updating..." : "Update Blog"}
+          </Button>
+        </ComponentCard>
+
+      </div>
     </>
   );
 }

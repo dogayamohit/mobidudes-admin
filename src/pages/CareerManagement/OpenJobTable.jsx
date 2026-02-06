@@ -33,7 +33,7 @@ export default function OpenJobTable() {
 
                 const mapped = res.map((item, index) => ({
                     id: item.id,
-                    sno: index + 1,
+                    // sno: index + 1,
                     postingDate: item.createdAt.split("T")[0],
                     openings: item.open_roles,
                     position: item.job_name,
@@ -139,7 +139,7 @@ export default function OpenJobTable() {
         } catch (error) {
 
             toast.error("Delete failed");
-            
+
         }
     };
 
@@ -148,30 +148,39 @@ export default function OpenJobTable() {
         <>
             <PageBreadcrumb pageTitle="Open Jobs" />
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div
+                className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+            >
 
                 {/* Controls */}
-                <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+                    {/* Rows per page select */}
                     <select
                         value={perPage}
                         onChange={(e) => setPerPage(Number(e.target.value))}
-                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        className="w-full sm:w-auto rounded-lg border border-gray-200 px-3 py-2 text-sm"
                     >
                         <option value={5}>5 rows</option>
                         <option value={10}>10 rows</option>
                     </select>
 
-                    <div className="flex items-center gap-3">
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Search ..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
-                            />
+                    {/* Search + Add button */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                        <Input
+                            type="text"
+                            placeholder="Search ..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full sm:min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        />
 
-                        </div>
                         <Button
                             variant="primary"
                             onClick={() => navigate("/careers/open-jobs/add")}
@@ -180,7 +189,9 @@ export default function OpenJobTable() {
                             Add
                         </Button>
                     </div>
+
                 </div>
+
 
                 {/* Table */}
                 <div className="relative overflow-x-auto rounded-xl border border-gray-200">
@@ -218,55 +229,37 @@ export default function OpenJobTable() {
                         <tbody className="divide-y divide-gray-100">
                             {paginatedData.map((item, index) => (
                                 <tr
-                                    key={item.sno}
-                                    className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"
-                                        }`}
+                                    key={item.id}
+                                    className={`transition hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
                                 >
+                                    {/* Dynamic S.No */}
                                     <td className="px-4 py-4 text-gray-600">
-                                        {item.sno}
-                                    </td>
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.postingDate}
+                                        {(currentPage - 1) * perPage + index + 1}
                                     </td>
 
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.openings}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-800">
-                                        {item.position}
-                                    </td>
-
-                                    <td className="px-4 py-4 text-gray-600">
-                                        {item.experience}
-                                    </td>
-
-                                    {/* Status */}
+                                    <td className="px-4 py-4 text-gray-600">{item.postingDate}</td>
+                                    <td className="px-4 py-4 text-gray-600">{item.openings}</td>
+                                    <td className="px-4 py-4 text-gray-800">{item.position}</td>
+                                    <td className="px-4 py-4 text-gray-600">{item.experience}</td>
 
                                     <td className="px-4 py-4">
                                         <button
                                             onClick={() => handleToggleStatus(item)}
                                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors
-    ${item.status === "Open" ? "bg-green-600" : "bg-red-500"}`}
+            ${item.status === "Open" ? "bg-green-600" : "bg-red-500"}`}
                                         >
                                             <span
                                                 className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform
-      ${item.status === "Open" ? "translate-x-5" : "translate-x-1"}`}
+              ${item.status === "Open" ? "translate-x-5" : "translate-x-1"}`}
                                             />
                                         </button>
-
                                     </td>
-
 
                                     <td className="px-3 py-4 flex gap-2">
                                         <Button
                                             size="sm"
                                             variant="edit"
-                                            onClick={() =>
-                                                navigate(`/careers/open-jobs/edit/${item.id}`, {
-                                                    state: item
-                                                })
-                                            }
+                                            onClick={() => navigate(`/careers/open-jobs/edit/${item.id}`, { state: item })}
                                             startIcon={<CiEdit size={20} />}
                                         />
 
@@ -280,6 +273,7 @@ export default function OpenJobTable() {
                                 </tr>
                             ))}
                         </tbody>
+
                     </table>
                 </div>
 

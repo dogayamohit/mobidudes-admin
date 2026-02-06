@@ -94,27 +94,39 @@ export default function FaqTable() {
     <>
       <PageBreadcrumb pageTitle="FAQ List" />
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-6">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
         {/* Controls */}
-        <div className="mb-4 flex items-center justify-between gap-3">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+          {/* Rows per page select */}
           <select
             value={perPage}
             onChange={(e) => setPerPage(Number(e.target.value))}
-            className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+            className="w-full sm:w-auto rounded-lg border border-gray-200 px-3 py-2 text-sm"
           >
             <option value={5}>5 rows</option>
             <option value={10}>10 rows</option>
           </select>
 
-          <div className="flex items-center gap-3">
+          {/* Search + Add button */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
             <Input
               type="text"
               placeholder="Search ..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
+              className="w-full sm:min-w-[260px] rounded-lg border border-gray-200 px-3 py-2 text-sm"
             />
+
             <Button
               variant="primary"
               onClick={() => navigate("/faqs/add")}
@@ -123,7 +135,9 @@ export default function FaqTable() {
               Add
             </Button>
           </div>
+
         </div>
+
 
         {/* Table */}
         <div className="overflow-x-auto rounded-xl border border-gray-200">

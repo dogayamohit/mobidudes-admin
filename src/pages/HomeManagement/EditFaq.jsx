@@ -53,7 +53,7 @@ export default function EditFaq() {
     };
 
     fetchFaq();
-    
+
   }, [id, navigate]);
 
   /* -------- HANDLE CHANGE -------- */
@@ -111,7 +111,15 @@ export default function EditFaq() {
     <>
       <PageBreadcrumb pageTitle="Edit FAQ" />
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-6">
+      <div
+        className="
+                    rounded-2xl border border-gray-200 bg-white shadow-sm
+                    p-4 sm:p-6 md:p-6 lg:p-4
+                    w-full mx-auto
+                    max-w-[calc(100vw-var(--sidebar-space))]
+                    transition-all duration-300
+                "
+      >
 
         <div className="grid gap-6">
 
@@ -158,7 +166,7 @@ export default function EditFaq() {
           >
             {submitting ? "Updating..." : "Update FAQ"}
           </Button>
-          
+
         </div>
       </div>
     </>
